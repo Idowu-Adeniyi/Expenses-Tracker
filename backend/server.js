@@ -34,9 +34,12 @@ app.post("/api/expenses", async(req, res) => {
             return res.status(400).json({ message: "Fields cannot be empty or contain only spaces." });
         }
 
+        //Convert the input to a strict number
+        const parsedAmount = Number(amount);
+
         // Verify if amount is number
-        if(isNaN(amount) || amount <= 0){
-            return res.status(400).json({message: "Amount must be a valid number or greater than 0"});
+        if(isNaN(parsedAmount) || parsedAmount <= 0){
+            return res.status(400).json({message: "Amount must be a valid number greater than 0"});
         }
 
         const newExpense = await pool.query("INSERT INTO expenses(description, amount, date) VALUES ($1, $2, $3) RETURNING *", [description, amount, date]);
