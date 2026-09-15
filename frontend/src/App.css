@@ -17,8 +17,6 @@
     margin-right: 120px;
     margin-top:100px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
-   
-
 }
 
 .header-btn{
@@ -44,5 +42,46 @@ input{
     padding-left:10px;
     box-sizing: border-box;
     
+}
+
+.date-picker{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.react-datepicker {
+    background-color: black !important; 
+    border: none !important; 
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+    color: #ffffff !important;
+}
+
+.react-datepicker__current-month{
+    color: black !important;
+}
+
+
+.btn-container{
+    width: 100%;
+    padding-left: 120px;
+    padding-right: 120px;
+    box-sizing: border-box;
+}
+
+.btn-container button{
+    width: 100%;
+    font-size:x-large;
+    height: 55px;
+    border-radius: 10px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    color: black;
 }
 
