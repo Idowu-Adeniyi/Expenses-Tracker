@@ -5,8 +5,12 @@ function Header(){
         <div className = "header-container">
             <h1 className="logoText">Expense Tracker</h1>
             <div className="header-btn">
-                <p>All Expenses</p>
-                <p><span className="newExpenseText">New Expense</span></p>
+                <p>
+                    <a href="#">All Expenses</a>
+                </p>
+                <p>
+                    <a href="#">New Expense</a>
+                </p>
             </div>
         </div>
     )
