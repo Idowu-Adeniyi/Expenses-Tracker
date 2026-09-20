@@ -91,7 +91,9 @@ async function handleFormSubmit(e){
                 <div className="date-picker">
                     <DatePicker 
                         selected={inputData.date} 
-                        onChange={(date) => handleDateChange(date)} 
+                        onChange={(selectedDate) => {
+                            return handleDateChange(selectedDate);
+                        }} 
                         inline 
                         dateFormat="yyyy-MM-dd"
                         // onChange={props.handleChange}
