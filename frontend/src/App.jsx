@@ -10,7 +10,14 @@ function App() {
   // This state tracks your complete list of expenses
   const [expense, setExpense] = useState([]);
   const [allExpense, setAllExpense] = useState([]);
-  const [showExpense, setShowExpense]=useState(false);
+  const [showForm, setShowForm]=useState(false);
+  
+
+  //Handle Show Expense
+function handleShowForm(){
+  setShowForm(true);
+}
+
 
    async function getAllExpenses(){
     try{
@@ -32,8 +39,6 @@ useEffect(()=>{
 },[]);
 
 
-// Handle Show Expense
-
   // When form successfully saves an item, it will pass it here to update the list
   function handleAddNewExpense(savedExpense){
     setExpense((prevExpense)=>{
@@ -41,22 +46,18 @@ useEffect(()=>{
     });
   }
 
-
   return (
     <>
       <Header
-      getAllExpenses={getAllExpenses}
-      />
-      <Form
-      // handleChange = {handleChange}
-      // inputData ={inputData}
-      // handleFormSubmit ={handleFormSubmit}
-      handleAddNewExpense={handleAddNewExpense}
-      />
-      <ExpenseItems
-      allExpense={allExpense}
-   
-      />
+          getAllExpenses={() => {
+              setShowForm(false);
+              getAllExpenses();
+            }} 
+              handleShowForm={handleShowForm}
+           />
+
+     {showForm ?  (
+      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} />)}
     </>
   )
 }
