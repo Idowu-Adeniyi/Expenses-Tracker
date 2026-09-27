@@ -46,6 +46,13 @@ useEffect(()=>{
     });
   }
 
+
+  function deleteItem(){
+    alert("Item has been deleted!");
+  }
+
+
+
   return (
     <>
       <Header
@@ -57,7 +64,8 @@ useEffect(()=>{
            />
 
      {showForm ?  (
-      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} />)}
+      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteItem={deleteItem} />)}
+      
     </>
   )
 }
