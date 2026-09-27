@@ -25,7 +25,7 @@ function handleShowForm(){
       const response = await axios.get("http://localhost:3000/api/expenses");
 
       console.log("1. API Status:", response.status);
-    console.log("2. Fetched Data:", response.data);
+      console.log("2. Fetched Data:", response.data);
 
       // put the database items into the state
       setAllExpense(response.data);
