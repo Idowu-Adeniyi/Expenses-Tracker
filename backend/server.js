@@ -146,7 +146,7 @@ app.delete("/api/expenses/:id", async (req, res)=>{
 
     }catch(error){
         console.error(error.message);
-        res.status(500).json({message: "Expense not found"})
+        res.status(500).json({message: "Internal server error occurred while deleting"})
     }
 })
 

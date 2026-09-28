@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header"
 
+
 function ExpenseItems(props){
     // 1. Calculate total expenses using reduce
     const totalExpenses = props.allExpense.reduce((accumulator, item) => {
@@ -29,7 +30,9 @@ function ExpenseItems(props){
                     <span className="row-data">{item.date.split("T")[0]}</span>
                     <div className="btn-action">
                         <button className="btn-edit">Edit</button>
-                        <button onClick={props.deleteItem} className="btn-delete">Delete</button>
+                        <button onClick={()=>{
+                            props.deleteExpense(item.id)
+                        }} className="btn-delete">Delete</button>
                     </div>
             </li>
             

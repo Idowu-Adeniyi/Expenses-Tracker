@@ -47,11 +47,31 @@ useEffect(()=>{
   }
 
 
-  function deleteItem(){
-    alert("Item has been deleted!");
+  async function deleteExpense(id){
+    //Confirmation popup and store true/false
+    const userConfirmed = window.confirm("Are you sure you want to delete this expense?")
+    if(!userConfirmed){
+      return;
+    }
+
+    try{
+     await axios.delete(`http://localhost:3000/api/expenses/${id}`)
+
+      setAllExpense((prevExpense)=>{
+        return prevExpense.filter((item)=>{
+          return item.id !== id;
+        });
+      });
+   
+      setTimeout(()=>{
+        alert("Item deleted successfully")
+      }, 100); 
+
+    }catch(error){
+      console.error(error.message)
+      alert("Failed to delete the item. Please try again.")
+    } 
   }
-
-
 
   return (
     <>
@@ -64,9 +84,9 @@ useEffect(()=>{
            />
 
      {showForm ?  (
-      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteItem={deleteItem} />)}
-      
+      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} />)}
     </>
+    
   )
 }
 
