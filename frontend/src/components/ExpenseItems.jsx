@@ -29,9 +29,11 @@ function ExpenseItems(props){
                     <span className="row-data">$ {item.amount} CAD</span> 
                     <span className="row-data">{item.date.split("T")[0]}</span>
                     <div className="btn-action">
-                        <button className="btn-edit">Edit</button>
                         <button onClick={()=>{
-                            props.deleteExpense(item.id)
+                          return props.updateExpense(item.id);
+                        }} className="btn-edit">Edit</button>
+                        <button onClick={()=>{
+                          return props.deleteExpense(item.id)
                         }} className="btn-delete">Delete</button>
                     </div>
             </li>

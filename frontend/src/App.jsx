@@ -10,7 +10,8 @@ function App() {
   // This state tracks your complete list of expenses
   const [expense, setExpense] = useState([]);
   const [allExpense, setAllExpense] = useState([]);
-  const [showForm, setShowForm]=useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [editingExpense, setEditingExpense] = useState(null); 
   
 
   //Handle Show Expense
@@ -69,9 +70,26 @@ useEffect(()=>{
 
     }catch(error){
       console.error(error.message)
-      alert("Failed to delete the item. Please try again.")
+      alert("Failed to delete the item. Please try again.");
     } 
   }
+
+// Updating expense
+   async function updateExpense(id){
+    try {
+      const updateExpenses = await axios.put(`http://localhost:3000/api/expenses/${id}`);
+      
+      // setEditingExpense((prevExpense)=>{
+      //   return prevExpense.filter((item)=>{
+      //     return item.id !== id;
+      //   })
+      // })
+    }catch(error){
+      console.error(error.message)
+      alert("Failed to update expense")
+    }    
+  }
+
 
   return (
     <>
@@ -84,7 +102,7 @@ useEffect(()=>{
            />
 
      {showForm ?  (
-      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} />)}
+      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} updateExpense={updateExpense} />)}
     </>
     
   )
