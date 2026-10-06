@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
 
-function Form({inputData,setInputData,handleChange, handleDateChange, handleAddNewExpense}){
+function Form({inputData,setInputData,handleChange, handleDateChange, handleAddNewExpense, handleUpdateExpenseList}){
    
 async function handleFormSubmit(e){
     e.preventDefault();
@@ -25,18 +25,20 @@ async function handleFormSubmit(e){
 
     try{
         if (inputData.id){
-            await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
-      description: description, 
-      amount: Number(amount), 
-      date: formattedDate
-    })
-    alert("Expense Updated")
-        } else {
+         const response = await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
+                    description: description, 
+                    amount: Number(amount), 
+                    date: formattedDate
+                    });
+    // Passing the updated database row back to App.js to update the list view
+    handleUpdateExpenseList(response.data);
+    alert("Expense Updated successfully")
+            } else {
              const response = await axios.post("http://localhost:3000/api/expenses/", {
-      description: description, 
-      amount: Number(amount), 
-      date: formattedDate
-    });
+                description: description, 
+                amount: Number(amount), 
+                date: formattedDate
+             });
 
 
     // The backend sends back the newly saved database row

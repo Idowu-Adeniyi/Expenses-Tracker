@@ -72,6 +72,18 @@ useEffect(()=>{
     });
   }
 
+// Updating the List Array
+function handleUpdateExpenseList(updatedExpense){
+  setAllExpense((prevExpense)=>{
+    return prevExpense.map((item)=>{
+      //if the ID matches the edited, replace it with new data
+      return item.id === updatedExpense.id ? updatedExpense : item;
+    });
+  });
+  // Send the user back to the list view
+  setShowForm(false);
+}
+
 
   async function deleteExpense(id){
     //Confirmation popup and store true/false
@@ -113,7 +125,7 @@ useEffect(()=>{
       alert("Failed to update expense")
     }    
   }
-  
+
   return (
     <>
       <Header
@@ -127,6 +139,7 @@ useEffect(()=>{
      {showForm ?  (
       <Form 
       handleAddNewExpense={handleAddNewExpense}
+      handleUpdateExpenseList={handleUpdateExpenseList}
       inputData={inputData}
       handleChange={handleChange} 
       handleDateChange={handleDateChange} handleAddNewExpense={handleAddNewExpense} setInputData={setInputData} /> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} updateExpense={updateExpense} />)}
