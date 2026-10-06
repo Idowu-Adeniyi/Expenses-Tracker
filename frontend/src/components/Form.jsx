@@ -3,38 +3,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
-function Form(props){
-    const [expenseDate, setExpenseDate] = useState(new Date());
-    const [inputData, setInputData]= useState({
-        description: "",
-        amount: "", 
-        date: new Date()
-    });
 
-     function handleChange(e){
-        const {name, value} = e.target
-    
-        setInputData((prevData) => {
-        return {
-            ...prevData,
-            [name]: value
-        };
-    });
-    }
-
-    function handleDateChange(selectedDate){
-        setInputData((prevData)=> {
-          return {
-             ...prevData,
-            date: selectedDate
-          };
-        })
-    }
-
+function Form({inputData,setInputData,handleChange, handleDateChange, handleAddNewExpense}){
+   
 async function handleFormSubmit(e){
     e.preventDefault();
 
-    // Pull values out of the object state for easy validdation
+    // Pull values out of the object state for easy validation
     const description = inputData.description;
     const amount = inputData.amount;
     const rawDate = inputData.date;
@@ -49,28 +24,36 @@ async function handleFormSubmit(e){
     const formattedDate = rawDate.toISOString().split("T")[0];
 
     try{
-        // Send formatted fields to backend Express server
-      const response = await axios.post("http://localhost:3000/api/expenses/", {
+        if (inputData.id){
+            await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
+      description: description, 
+      amount: Number(amount), 
+      date: formattedDate
+    })
+    alert("Expense Updated")
+        } else {
+             const response = await axios.post("http://localhost:3000/api/expenses/", {
       description: description, 
       amount: Number(amount), 
       date: formattedDate
     });
 
+
     // The backend sends back the newly saved database row
       const savedExpense = response.data;
 
-    // Send that item backup to APP.jsx to append to the master array
-    props.handleAddNewExpense(savedExpense);
+      // Send that item backup to APP.jsx to append to the master array
+            handleAddNewExpense(savedExpense);
 
-    // clear out the form inputs
+            alert("Expense saved successfully!");
+        }
+       //clear out the form inputs
     setInputData({
         description: "",
         amount: "",
         date: new Date()
     });
-
-    alert("Expense saved successfully!");
-
+        
     }catch(error){
       console.error("failed to save to database",error);
     }
@@ -79,7 +62,8 @@ async function handleFormSubmit(e){
     return (
         <form onSubmit={handleFormSubmit}>
             <div className="form-container">
-                <h2>New Expense</h2>
+                <h2>{inputData.id ? "Edit Expense" : "New Expense"}</h2>
+                <p>{inputData.description}</p>
                 <div>
                     <label htmlFor = "title">Title:</label>
                     <input type="text" id="title" name="description" placeholder="Enter Description" required onChange={handleChange} value={inputData.description}/>
@@ -96,15 +80,14 @@ async function handleFormSubmit(e){
                         }} 
                         inline 
                         dateFormat="yyyy-MM-dd"
-                        // onChange={props.handleChange}
-                        // value={props.inputData}
-                        // name="date"
                     />
                     {/* <input type="date" id="datePicker" name="date" required/> */}
                 </div>
             </div>
             <div className="btn-container">
-                <button type="submit">Submit</button>
+                <button type="submit">
+                    {inputData.id ? "Update Expense" : "+ Add Expense"}
+                </button>
             </div>
         </form>
     )

@@ -12,8 +12,33 @@ function App() {
   const [allExpense, setAllExpense] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null); 
-  
+  const [expenseDate, setExpenseDate] = useState(new Date());
+  const [inputData, setInputData]= useState({
+          description: "",
+          amount: "", 
+          date: new Date()
+      });
 
+      function handleChange(e){
+        const {name, value} = e.target
+        setInputData((prevData) => {
+        return {
+            ...prevData,
+            [name]: value
+        };
+    });
+    }
+
+
+    function handleDateChange(selectedDate){
+        setInputData((prevData)=> {
+          return {
+             ...prevData,
+            date: selectedDate
+          };
+        })
+    }
+  
   //Handle Show Expense
 function handleShowForm(){
   setShowForm(true);
@@ -76,21 +101,19 @@ useEffect(()=>{
 
 // Updating expense
    async function updateExpense(id){
+    setShowForm(true);
     try {
-      const updateExpenses = await axios.put(`http://localhost:3000/api/expenses/${id}`);
-      
-      // setEditingExpense((prevExpense)=>{
-      //   return prevExpense.filter((item)=>{
-      //     return item.id !== id;
-      //   })
-      // })
+      const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
+
+      setInputData(response.data)
+      console.log(response.data.date)
+
     }catch(error){
       console.error(error.message)
       alert("Failed to update expense")
     }    
   }
-
-
+  
   return (
     <>
       <Header
@@ -102,7 +125,11 @@ useEffect(()=>{
            />
 
      {showForm ?  (
-      <Form handleAddNewExpense={handleAddNewExpense}/> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} updateExpense={updateExpense} />)}
+      <Form 
+      handleAddNewExpense={handleAddNewExpense}
+      inputData={inputData}
+      handleChange={handleChange} 
+      handleDateChange={handleDateChange} handleAddNewExpense={handleAddNewExpense} setInputData={setInputData} /> ):(<ExpenseItems allExpense={allExpense} deleteExpense={deleteExpense} updateExpense={updateExpense} />)}
     </>
     
   )

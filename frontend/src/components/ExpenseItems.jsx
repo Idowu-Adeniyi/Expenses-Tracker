@@ -10,7 +10,6 @@ function ExpenseItems(props){
         return accumulator + amount;
     }, 0);
 
-
     return (
     <div className="list-items">
         <h2>All Expenses</h2>
@@ -21,9 +20,7 @@ function ExpenseItems(props){
             <p>Action</p>        
         </div>
         <ul>{props.allExpense.map((item)=>{
-            
             return (
-            
                 <li key={item.id} className="list-data">
                     <span className="row-data">{item.description}</span>
                     <span className="row-data">$ {item.amount} CAD</span> 
@@ -36,8 +33,7 @@ function ExpenseItems(props){
                           return props.deleteExpense(item.id)
                         }} className="btn-delete">Delete</button>
                     </div>
-            </li>
-            
+                </li>
             );
         })}
         </ul>
@@ -45,7 +41,6 @@ function ExpenseItems(props){
                 <p><strong>Total Expense:</strong> $ {totalExpenses.toFixed(2)} CAD</p>
             </div>
     </div>
-    
     )
  }
 
