@@ -95,7 +95,7 @@ input{
      color: white;
 }
 
-.header-btn p a:active{
+.header-btn p a.active{
      color: white;
 }
 
@@ -163,3 +163,30 @@ h2{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-size:20px;
 }
+
+
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #2ecc71; /* Sleek Emerald Green */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
