@@ -1,36 +1,36 @@
-# 💸 Expense Tracker Application
+# Expense Tracker Application
 
-A clean, responsive, full-stack web application designed to track day-to-day expenditures. Built using **React (Vite)** for the frontend, **Express/Node.js** for the REST API, and **PostgreSQL** for persistent data storage.
+A clean, responsive, full-stack web application designed to track day-to-day expenditures. Built using React (Vite) for the frontend, Express/Node.js for the REST API, and PostgreSQL for persistent data storage.
 
-## 🚀 Features
-* **Full CRUD Operations:** Create, Read, Update, and Delete expenses seamlessly.
-* **Smart UI State Matching:** The same form handles adding new expenses and updating existing ones, dynamically updating headers and buttons.
-* **Optimized Local UI Sync:** App synchronizes updates directly into the UI state tree without redundant secondary network fetches.
-* **Integrated Date Management:** Built-in `react-datepicker` calendar syncs perfectly with time zones across client-server lines.
-* **Custom Floating Toast System:** Snappy notifications drop down from the top right corner of the window instead of blocking native browser loops.
+## Features
+* Full CRUD Operations: Create, Read, Update, and Delete expenses seamlessly.
+* Smart UI State Matching: The same form handles adding new expenses and updating existing ones, dynamically updating headers and buttons.
+* Optimized Local UI Sync: App synchronizes updates directly into the UI state tree without redundant secondary network fetches.
+* Integrated Date Management: Built-in react-datepicker calendar syncs perfectly with time zones across client-server lines.
+* Custom Floating Toast System: Snappy notifications drop down from the top right corner of the window instead of blocking native browser loops.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
-* **React 18** (Vite template environment)
-* **Axios** (HTTP Client layer)
-* **React Datepicker** (Interactive inline calendars)
-* **Custom Vanilla CSS**
+* React 18 (Vite template environment)
+* Axios (HTTP Client layer)
+* React Datepicker (Interactive inline calendars)
+* Custom Vanilla CSS
 
 ### Backend
-* **Node.js & Express**
-* **pg (node-postgres)** (Relational database client pooling)
-* **Cors** (Cross-Origin Resource Sharing)
-* **Dotenv** (Environment isolation management)
+* Node.js & Express
+* pg (node-postgres) (Relational database client pooling)
+* Cors (Cross-Origin Resource Sharing)
+* Dotenv (Environment isolation management)
 
 ### Database
-* **PostgreSQL**
+* PostgreSQL
 
 ---
 
-## 💾 Database Schema Setup
+## Database Schema Setup
 
 To create the necessary tables in your PostgreSQL database instance, execute the following script inside your SQL query terminal:
 
@@ -45,11 +45,11 @@ CREATE TABLE expenses (
 
 ---
 
-## ⚙️ Installation & Getting Started
+## Installation & Getting Started
 
 ### Prerequisites
-* Ensure you have **Node.js** and **npm** installed locally.
-* A running **PostgreSQL** database server instance.
+* Ensure you have Node.js and npm installed locally.
+* A running PostgreSQL database server instance.
 
 ### 1. Backend API Repository Setup
 1. Open your terminal inside your server/backend codebase directory.
@@ -81,16 +81,16 @@ CREATE TABLE expenses (
    ```bash
    npm run dev
    ```
-4. Access the working tracker directly by opening the local host URL target (e.g., `http://localhost:5173`) printed out inside the active node interface stream.
+4. Access the working tracker directly by opening the local host URL target (e.g., http://localhost:5173) printed out inside the active node interface stream.
 
 ---
 
-## 📡 API Architecture Specifications
+## API Architecture Specifications
 
 | Method | Endpoint | Description | Payload Schema |
 | :--- | :--- | :--- | :--- |
-| **GET** | `/api/expenses` | Fetches every single recorded table row ordered sequentially by ID numbers. | None |
-| **GET** | `/api/expenses/:id` | Isolates and validates a single unique database match. | None |
-| **POST** | `/api/expenses` | Adds a newly validated transaction string block directly into the database. | `{ "description": "Groceries", "amount": 42.50, "date": "2026-10-06" }` |
-| **PUT** | `/api/expenses/:id` | Modifies an existing expense target matching the given router ID. | `{ "description": "Updated Title", "amount": 50.00, "date": "2026-10-06" }` |
-| **DELETE** | `/api/expenses/:id` | Safely drops target row mapping matching target route parameters. | None |
+| GET | /api/expenses | Fetches every single recorded table row ordered sequentially by ID numbers. | None |
+| GET | /api/expenses/:id | Isolates and validates a single unique database match. | None |
+| POST | /api/expenses | Adds a newly validated transaction string block directly into the database. | { "description": "Groceries", "amount": 42.50, "date": "2026-10-06" } |
+| PUT | /api/expenses/:id | Modifies an existing expense target matching the given router ID. | { "description": "Updated Title", "amount": 50.00, "date": "2026-10-06" } |
+| DELETE | /api/expenses/:id | Safely drops target row mapping matching target route parameters. | None |
