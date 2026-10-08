@@ -5,12 +5,8 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-// app.use(cors());
-app.use(cors({
-  origin: "*", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"]
-}));
+app.use(cors());
+
 
 
 const PORT = process.env.PORT || 3000;
@@ -47,7 +43,7 @@ app.post("/api/expenses", async (req, res) => {
     }
 
     const newExpense = await pool.query(
-      "INSERT INTO expenses(description, amount, date) VALUES (\$1, \$2, \$3) RETURNING *", 
+      "INSERT INTO expenses(description, amount, date) VALUES ($1, $2, $3) RETURNING *", 
       [description, amount, date]
     );
     res.status(201).json(newExpense.rows[0]);
@@ -81,7 +77,7 @@ app.get("/api/expenses/:id", async (req, res) => {
     }
     
     // Query database
-    const expense = await pool.query("SELECT * FROM expenses WHERE id = \$1", [id]);
+    const expense = await pool.query("SELECT * FROM expenses WHERE id = $1", [id]);
        
     // Validate
     if (expense.rows.length === 0) {
@@ -114,7 +110,7 @@ app.put("/api/expenses/:id", async (req, res) => {
     
     // Query database
     const updateExpense = await pool.query(
-      "UPDATE expenses SET description = \$1, amount = \$2, date = \$3 WHERE id = \$4 RETURNING *", 
+      "UPDATE expenses SET description = $1, amount = $2, date = $3 WHERE id = $4 RETURNING *", 
       [description, amount, date, id]
     );
 
@@ -143,7 +139,7 @@ app.delete("/api/expenses/:id", async (req, res) => {
     }
     
     // Query database
-    const deleteExpense = await pool.query("DELETE FROM expenses WHERE id = \$1 RETURNING *", [id]);
+    const deleteExpense = await pool.query("DELETE FROM expenses WHERE id = $1 RETURNING *", [id]);
 
     // Check if row exists
     if (deleteExpense.rows.length === 0) {
