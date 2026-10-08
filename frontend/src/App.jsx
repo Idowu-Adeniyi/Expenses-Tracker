@@ -56,7 +56,7 @@ function App() {
   async function getAllExpenses() {
     try {
       // Get all expense from backend api route
-      const response = await axios.get("http://localhost:3000/api/expenses");
+      const response = await axios.get("http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses");
 
       console.log("1. API Status:", response.status);
       console.log("2. Fetched Data:", response.data);
@@ -99,7 +99,7 @@ function App() {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/expenses/${id}`)
+      await axios.delete(`http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/${id}`)
 
       setAllExpense((prevExpense) => {
         return prevExpense.filter((item) => {
@@ -121,7 +121,7 @@ function App() {
   async function updateExpense(id) {
     setShowForm(true);
     try {
-      const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
+      const response = await axios.get(`http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/${id}`);
 
       setInputData(response.data)
       console.log(response.data.date)
