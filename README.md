@@ -2,6 +2,10 @@
 
 A clean, responsive, full-stack web application designed to track day-to-day expenditures. Built using React (Vite) for the frontend, Express/Node.js for the REST API, and PostgreSQL for persistent data storage.
 
+## 🔗 Live Deployment Links
+* **Live Website Interface:** http://my-expense-tracker-frontend-app.s3-website-us-east-1.amazonaws.com/
+* **Production API Gateway Instance:** http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/
+
 ## Features
 * Full CRUD Operations: Create, Read, Update, and Delete expenses seamlessly.
 * Smart UI State Matching: The same form handles adding new expenses and updating existing ones, dynamically updating headers and buttons.

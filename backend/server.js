@@ -5,8 +5,12 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
-
+// app.use(cors());
+app.use(cors({
+  origin: "http://my-expense-tracker-frontend-app.s3-website-us-east-1.amazonaws.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 
 const PORT = process.env.PORT || 3000;
