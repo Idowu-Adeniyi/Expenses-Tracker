@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
-function Form({ inputData, setInputData, handleChange, handleDateChange, handleAddNewExpense, handleUpdateExpenseList, showToast }) {
+function CreateExpense({ inputData, setInputData, handleChange, handleDateChange, handleAddNewExpense, handleUpdateExpenseList, showToast }) {
    
   async function handleFormSubmit(e) {
     e.preventDefault();
@@ -24,7 +24,7 @@ function Form({ inputData, setInputData, handleChange, handleDateChange, handleA
 
     try {
       if (inputData.id) {
-        const response = await axios.put(`http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/${inputData.id}`, {
+        const response = await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
           description: description, 
           amount: Number(amount), 
           date: formattedDate
@@ -34,7 +34,7 @@ function Form({ inputData, setInputData, handleChange, handleDateChange, handleA
         handleUpdateExpenseList(response.data);
         showToast("Expense updated successfully!");
       } else {
-        const response = await axios.post("http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/", {
+        const response = await axios.post("http://localhost:3000/api/expenses", {
           description: description, 
           amount: Number(amount), 
           date: formattedDate
@@ -112,4 +112,4 @@ function Form({ inputData, setInputData, handleChange, handleDateChange, handleA
   )
 }
 
-export default Form;
+export default CreateExpense;

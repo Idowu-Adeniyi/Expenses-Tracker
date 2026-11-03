@@ -190,3 +190,181 @@ h2{
   }
 }
 
+
+.login-container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    height: 100vh;
+    gap:1rem;
+    padding:1rem;
+    background-color:rgb(66, 134, 66);
+    box-sizing:border-box;
+    margin-right:100px;
+    margin-left:100px;
+    box-sizing:border-box;
+    
+}
+
+.left-content h2{
+    background-color:white;
+    color:rgb(12, 81, 12);
+    height:65px;
+    font-size: 50px; 
+    /* background-color: transparent;  */
+}
+
+
+.left-content h2 .logo-text{
+    color:rgb(41, 116, 41);
+    height:65px;
+    font-size: 50px; 
+    font-weight:lighter;
+    padding-right:7px;
+    padding-left:7px;
+}
+
+
+.left-content {
+   display:flex;
+   flex-direction:column;
+   align-items:center;
+   border-radius:10px;
+   background-repeat: no-repeat;
+   background-size: cover;
+   box-sizing:border-box;
+   margin-top:65px;
+   margin-bottom:65px;
+   margin-left:65px;
+}
+
+.login-bg{
+   background-image: url('./assets/images/expensetracker-image2.avif');
+}
+
+.register-bg{
+   background-image: url('./assets/images/expensetracker-image.avif');
+}
+
+
+.right-content button{
+    width:100%;
+    /* height: 60px; */
+    /* height: 48px; */
+    height: 56px;
+    border: none;
+    border-radius: 10px;
+    background-color:rgb(12, 81, 12);
+    color:white;
+    margin-top: 30px;
+    font-size: 20px;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    
+}
+
+
+.right-content{
+    background-color:rgb(66, 134, 66);
+    margin-right:100px;
+    margin-left:100px;
+    margin-top:50px;
+    color:white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing:border-box;
+}
+
+
+.right-content h2.login-text{
+   font-size: 30px;
+   align-items:center;
+}
+
+
+.right-content input{
+    width:100%;
+    /* height: 60px; */
+    /* height: 44px; */
+    height: 52px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color:rgb(136, 200, 136);
+    border:none;
+    position:relative;
+    box-sizing:border-box;
+    padding-left: 50px;
+   
+}
+
+.right-content input:hover {
+    border: solid 3px rgb(12, 81, 12);
+    outline:none; 
+}
+
+.input-icon{
+    position:absolute;
+    margin-left: -31rem;
+    margin-top: 23px;
+    pointer-events: none;  
+}
+
+
+.input-icon-password{
+    position:absolute;
+    margin-left: -3rem;
+    margin-top: 23px;
+    cursor:pointer;  
+}
+
+
+.right-content input:focus{
+   border: solid 3px rgb(12, 81, 12);
+   outline:none;  
+}
+
+.right-content input::placeholder{
+   color:rgb(73, 137, 73);
+   opacity: 1;
+   
+}
+
+
+.logo{
+    margin-top:20rem;
+}
+
+.account-prompt a{
+    color: #FFDE4D;            
+    text-decoration: none;     
+    font-weight: bold;
+}
+
+.account-prompt a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+h3.login-success{
+    font-family: sans-serif;
+    color:#4ADE80;
+    margin-top:-5px;
+    font-size:medium;
+}
+
+h3.login-failed{
+    font-family: sans-serif;
+    color:#FCA5A5;
+    margin-top:-5px;
+    font-size:medium;
+}
+
+h3 .error-highlight-text{
+    font-family: sans-serif;
+    color:#FFDE4D;
+    margin-top:-5px;
+    font-size:medium;
+}
+
+

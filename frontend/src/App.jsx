@@ -3,8 +3,10 @@ import axios from 'axios'
 import heroImg from './assets/hero.png'
 import './App.css'
 import Header from './components/Header'
-import Form from './components/Form'
-import ExpenseItems from './components/ExpenseItems'
+import CreateExpense from '/src/pages/CreateExpense'
+import AllExpenses from '/src/pages/AllExpenses'
+import Login from '/src/pages/Login'
+import Register from '/src/pages/Register'
 
 function App() {
   // This state tracks your complete list of expenses
@@ -55,8 +57,9 @@ function App() {
 
   async function getAllExpenses() {
     try {
+      
       // Get all expense from backend api route
-      const response = await axios.get("http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses");
+      const response = await axios.get("http://localhost:3000/api/expenses");
 
       console.log("1. API Status:", response.status);
       console.log("2. Fetched Data:", response.data);
@@ -99,7 +102,7 @@ function App() {
     }
 
     try {
-      await axios.delete(`http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/${id}`)
+      await axios.delete(`http://localhost:3000/api/expenses/${id}`)
 
       setAllExpense((prevExpense) => {
         return prevExpense.filter((item) => {
@@ -121,7 +124,7 @@ function App() {
   async function updateExpense(id) {
     setShowForm(true);
     try {
-      const response = await axios.get(`http://Expense-tracker-backend-env.eba-gzp6whqm.us-east-1.elasticbeanstalk.com/api/expenses/${id}`);
+      const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
 
       setInputData(response.data)
       console.log(response.data.date)
@@ -144,7 +147,7 @@ function App() {
       />
 
       {showForm ? (
-        <Form 
+        <CreateExpense 
           handleAddNewExpense={handleAddNewExpense}
           handleUpdateExpenseList={handleUpdateExpenseList}
           inputData={inputData}
@@ -154,7 +157,7 @@ function App() {
           setInputData={setInputData} 
         /> 
       ) : (
-        <ExpenseItems 
+        <AllExpenses
           allExpense={allExpense} 
           deleteExpense={deleteExpense} 
           updateExpense={updateExpense} 
@@ -166,6 +169,8 @@ function App() {
           {notification}
         </div>
       )}
+      <Register/>
+      <Login/>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../../components/Header";
 
-function ExpenseItems(props) {
+function AllExpenses(props) {
   // 1. Calculate total expenses using reduce
   const totalExpenses = props.allExpense.reduce((accumulator, item) => {
     // Convert to Number to prevent bugs if amount is passed as a string
@@ -44,10 +44,10 @@ function ExpenseItems(props) {
         })}
       </ul>
       <div className="total-expense-footer">
-        <p><strong>Total Expense:</strong> $ {totalExpenses.toFixed(2)} CAD</p>
+        <p><strong>Total Expenses:</strong> $ {totalExpenses.toFixed(2)} CAD</p>
       </div>
     </div>
   );
 }
 
-export default ExpenseItems;
+export default AllExpenses;
