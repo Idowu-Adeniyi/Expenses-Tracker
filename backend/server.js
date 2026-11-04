@@ -40,7 +40,7 @@ app.post("/api/register", async (req, res) => {
     }
 
     if(password !== confirmpassword){
-      return res.status(400).json({error: "Passwords do not match"})
+      return res.status(400).json({message: "Passwords do not match"})
     }
 
   try {
@@ -52,7 +52,7 @@ app.post("/api/register", async (req, res) => {
     // Destructure out the password_hash, and gather everything else into 'safeUser'
     const { password_hash, ...safeUser } = user.rows[0];
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "User registered successfully",
       user: safeUser // Automatically contains only id and username!
     });
@@ -74,7 +74,7 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).json({message: "Username already taken"})
     }
 
-    res.status(500).json({ message: "Database or server error" })
+    return res.status(500).json({ message: "Database or server error" })
   }
 })
 

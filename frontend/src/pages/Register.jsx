@@ -1,4 +1,7 @@
+// import { Link, useNavigate } from "react-router-dom";
 import React, {useState} from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
@@ -10,6 +13,9 @@ function Register(){
      const [showPassword, setShowPassword] = useState(false);
      const [errorMessage, setErrorMessage]= useState("");
      const [userInput, setUserInput] = useState({username:"", password:"", confirmpassword:""});
+
+     // Initialize the useNavigate
+    // const navigate = useNavigate();
 
      function togglePassword(){
         setShowPassword((prev)=>{
@@ -28,7 +34,7 @@ function Register(){
             })
     }
 
-    function handleFormSubmit(e){
+    async function handleFormSubmit(e){
         e.preventDefault();
         setErrorMessage("");
 
@@ -43,13 +49,32 @@ function Register(){
             setErrorMessage("Passwords do not match.");
             return;
          }   
+         
 
-            // Registration complete
+       try{
+         const response = await axios.post("http://localhost:3000/api/register", userInput);
+
+            //if  Registration succeed 
         setErrorMessage("Registration Successful!");
-        console.log("Registration data saved:", userInput);
+        console.log("Database saved:", response.data.user);
 
         // Clear fields
         setUserInput({ username: "", password: "", confirmpassword: "" })
+
+        //Redirect back to login page
+        // setTimeout(()=> {
+        //     navigate("/login");
+        // });
+
+       }catch(error){
+        console.error("Frontend registration error", error.message)
+        
+        if(error.response && error.response.data && error.response.data.message){
+            setErrorMessage(error.response.data.message)
+        }else{
+             setErrorMessage("Registration Failed. Please try again later!")
+        }
+      }
     }
 
     return(
