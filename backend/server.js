@@ -2,6 +2,8 @@ import "dotenv/config";
 import pool from "./db.js";
 import express from "express";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const app = express();
 app.use(express.json());
@@ -27,6 +29,57 @@ pool.query("SELECT NOW()", (err, res) => {
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+// Register user 
+app.post("/api/register", async (req, res) => {
+  const {username, password, confirmpassword} = req.body;
+
+  // validate user
+    if (!username || username.trim() == "" ||!password || password.trim() == "") {
+      return res.status(400).json({ message: "Fields cannot be empty"});
+    }
+
+    if(password !== confirmpassword){
+      return res.status(400).json({error: "Passwords do not match"})
+    }
+
+  try {
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+    
+    const user = await pool.query("INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *", [username, passwordHash]);
+
+    // Destructure out the password_hash, and gather everything else into 'safeUser'
+    const { password_hash, ...safeUser } = user.rows[0];
+
+    res.status(201).json({
+      message: "User registered successfully",
+      user: safeUser // Automatically contains only id and username!
+    });
+
+    // const registeredUser = user.rows[0];
+
+    // res.status(201).json({
+    //   message: "User registered successfully",
+    //   user: {
+    //     id: registeredUser.id,
+    //     username: registeredUser.username
+    //   }
+    // });
+
+  }catch(error){
+    console.error(error.message)
+
+    if(error.code === '23505'){
+      return res.status(409).json({message: "Username already taken"})
+    }
+
+    res.status(500).json({ message: "Database or server error" })
+  }
+})
+
+
+
 
 // CREATE A POST
 app.post("/api/expenses", async (req, res) => {
@@ -59,9 +112,11 @@ app.post("/api/expenses", async (req, res) => {
 });
 
 // READ ALL POSTS
-app.get("/api/expenses", async (req, res) => {
+app.get("/api/expenses/user/:userId", async (req, res) => {
   try {
-    const allExpenses = await pool.query("SELECT * FROM expenses ORDER BY id ASC");
+    const {userId} = req.params;
+
+    const allExpenses = await pool.query("SELECT * FROM expenses WHERE user_id = $1 ORDER BY id ASC", [userId]);
     res.status(200).json(allExpenses.rows);
 
   } catch(error) {

@@ -1,15 +1,14 @@
 body{
-  background-color: black;
   margin:0;
   padding:0;
   box-sizing: border-box;
+  min-height: 100vh;
   
- 
 }
+
 #root{
-  border: solid 2px white;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  
+  background-color:#F1F5F9;
 }

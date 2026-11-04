@@ -193,16 +193,16 @@ h2{
 
 .login-container{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    /* grid-template-columns:1fr 1fr; */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     height: 100vh;
     gap:1rem;
     padding:1rem;
     background-color:rgb(66, 134, 66);
     box-sizing:border-box;
-    margin-right:100px;
-    margin-left:100px;
-    box-sizing:border-box;
-    
+    max-width: 1500px; 
+    margin: 0 auto;    
+    padding: 0 24px;   
 }
 
 .left-content h2{

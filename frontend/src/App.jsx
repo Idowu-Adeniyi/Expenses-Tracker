@@ -3,8 +3,8 @@ import axios from 'axios'
 import heroImg from './assets/hero.png'
 import './App.css'
 import Header from './components/Header'
-import CreateExpense from '/src/pages/CreateExpense'
-import AllExpenses from '/src/pages/AllExpenses'
+import CreateExpense from '/src/pages/dashboard/CreateExpense'
+import AllExpenses from '/src/pages/dashboard/AllExpenses'
 import Login from '/src/pages/Login'
 import Register from '/src/pages/Register'
 
@@ -55,6 +55,9 @@ function App() {
     setShowForm(true);
   }
 
+
+
+  
   async function getAllExpenses() {
     try {
       
@@ -137,7 +140,7 @@ function App() {
 
   return (
     <>
-      <Header
+      {/* <Header
         showForm={showForm}
         getAllExpenses={() => {
           setShowForm(false);
@@ -168,9 +171,9 @@ function App() {
         <div className="toast-notification">
           {notification}
         </div>
-      )}
+      )} */}
       <Register/>
-      <Login/>
+      {/* <Login/> */}
     </>
   )
 }
