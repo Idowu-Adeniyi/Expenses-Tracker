@@ -1,7 +1,7 @@
 // import { Link, useNavigate } from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
@@ -10,12 +10,11 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 
 function Register(){
+    // Initialize the useNavigate
+     const navigate = useNavigate();
      const [showPassword, setShowPassword] = useState(false);
      const [errorMessage, setErrorMessage]= useState("");
      const [userInput, setUserInput] = useState({username:"", password:"", confirmpassword:""});
-
-     // Initialize the useNavigate
-    // const navigate = useNavigate();
 
      function togglePassword(){
         setShowPassword((prev)=>{
@@ -62,9 +61,9 @@ function Register(){
         setUserInput({ username: "", password: "", confirmpassword: "" })
 
         //Redirect back to login page
-        // setTimeout(()=> {
-        //     navigate("/login");
-        // });
+        setTimeout(()=> {
+            navigate("/login");
+        });
 
        }catch(error){
         console.error("Frontend registration error", error.message)
@@ -111,7 +110,8 @@ function Register(){
 
                 <button type="submit"><PersonAddAlt1OutlinedIcon/>Register</button>
                 </form>
-                <p className="account-prompt">Already have an account? <span><a href="#">Login</a></span></p>
+                <p className="account-prompt">Already have an account?<span><Link to="/"> Login</Link></span>
+                </p>
             </div>
         </div>
         </>

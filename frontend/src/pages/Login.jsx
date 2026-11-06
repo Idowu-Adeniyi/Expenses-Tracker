@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
@@ -7,6 +8,7 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 function Login(){
+    const navigate = useNavigate(); 
     const [showPassword, setShowPassword] = useState(false);
     const [userInput, setUserInput] = useState({username:"", password:""});
     const [errorMessage, setErrorMessage]= useState("");
@@ -35,7 +37,7 @@ function Login(){
 
             //Extract the token and safe user details sent by express
             const {token, user} = response.data;
-            
+
             // Save the token into the browser's memory
             localStorage.setItem("authToken", token);
 
@@ -98,7 +100,7 @@ function Login(){
                 <button type="submit"><LoginOutlinedIcon />Login</button>
                 </form>
 
-                <p className="account-prompt">Dont have an account? <span><a href="#">Register</a></span></p>
+                <p className="account-prompt">Dont have an account? <span><Link to="/register">Register</Link></span></p>
             </div>
         </div>
         </>

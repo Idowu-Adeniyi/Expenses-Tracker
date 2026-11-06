@@ -1,4 +1,4 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import heroImg from './assets/hero.png'
@@ -141,40 +141,54 @@ function App() {
 
   return (
     <>
-      {/* <Header
-        showForm={showForm}
-        getAllExpenses={() => {
-          setShowForm(false);
-          getAllExpenses();
-        }} 
-        handleShowForm={handleShowForm}
-      />
+      <BrowserRouter>
+        <Routes>
+          {/*  Public Auth Pages */}
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-      {showForm ? (
-        <CreateExpense 
-          handleAddNewExpense={handleAddNewExpense}
-          handleUpdateExpenseList={handleUpdateExpenseList}
-          inputData={inputData}
-          showToast={showToast} 
-          handleChange={handleChange} 
-          handleDateChange={handleDateChange} 
-          setInputData={setInputData} 
-        /> 
-      ) : (
-        <AllExpenses
-          allExpense={allExpense} 
-          deleteExpense={deleteExpense} 
-          updateExpense={updateExpense} 
-        />
-      )}
+          {/*  Your Protected Workspace Dashboard View */}
+          <Route 
+            path="/dashboard" 
+            element={
+              <>
+                <Header
+                  showForm={showForm}
+                  getAllExpenses={() => {
+                    setShowForm(false);
+                    getAllExpenses();
+                  }} 
+                  handleShowForm={handleShowForm}
+                />
 
-      {notification && (
-        <div className="toast-notification">
-          {notification}
-        </div>
-      )} */}
-      <Register/>
-      <Login/>
+                {showForm ? (
+                  <CreateExpense 
+                    handleAddNewExpense={handleAddNewExpense}
+                    handleUpdateExpenseList={handleUpdateExpenseList}
+                    inputData={inputData}
+                    showToast={showToast} 
+                    handleChange={handleChange} 
+                    handleDateChange={handleDateChange} 
+                    setInputData={setInputData} 
+                  /> 
+                ) : (
+                  <AllExpenses
+                    allExpense={allExpense} 
+                    deleteExpense={deleteExpense} 
+                    updateExpense={updateExpense} 
+                  />
+                )}
+
+                {notification && (
+                  <div className="toast-notification">
+                    {notification}
+                  </div>
+                )}
+              </>
+            } 
+          />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
