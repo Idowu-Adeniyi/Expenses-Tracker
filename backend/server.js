@@ -38,11 +38,9 @@ app.post("/api/register", async (req, res) => {
     if (!username || username.trim() == "" ||!password || password.trim() == "") {
       return res.status(400).json({ message: "Fields cannot be empty"});
     }
-
     if(password !== confirmpassword){
       return res.status(400).json({message: "Passwords do not match"})
     }
-
   try {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -57,28 +55,62 @@ app.post("/api/register", async (req, res) => {
       user: safeUser // Automatically contains only id and username!
     });
 
-    // const registeredUser = user.rows[0];
-
-    // res.status(201).json({
-    //   message: "User registered successfully",
-    //   user: {
-    //     id: registeredUser.id,
-    //     username: registeredUser.username
-    //   }
-    // });
-
   }catch(error){
     console.error(error.message)
-
     if(error.code === '23505'){
       return res.status(409).json({message: "Username already taken"})
     }
-
     return res.status(500).json({ message: "Database or server error" })
   }
 })
 
 
+// Login User
+app.post("/api/login", async (req, res) =>{
+  const {username, password} = req.body;
+  // validate username and password
+  if(!username || !password){
+    return res.status(400).json({message: "Invalid username or password!"})
+  }
+  // Check if user fields are empty 
+  if(username.trim()==="" || password.trim()===""){
+    return res.status(400).json({message: "Fields cannot be empty!"})
+  }
+  try{
+    const result = await pool.query("SELECT * FROM users WHERE username = $1",[username]);
+
+    if(result.rows.length === 0){
+      return res.status(401).json({message:"Invalid username or password."})
+    }
+    // If user found
+    const user = result.rows[0];
+
+    // Compare password 
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+
+    if(!isMatch){
+      return res.status(401).json({message:"Invalid username or password."});
+    }
+    // User Token
+    const token = jwt.sign(
+      {id: user.id, username: user.username},
+      process.env.JWT_SECRET,
+      {expiresIn: "1h"}
+    );
+
+    const {password_hash, ...safeUser} = user;
+    // If user exists
+    return res.status(200).json({ 
+      message: "Login successful!",
+      token: token,
+      user: safeUser 
+    });
+
+  }catch(error){
+    console.error(error.message)
+    return res.status(500).json({message:"Server error!"})
+  }
+})
 
 
 // CREATE A POST

@@ -1,22 +1,15 @@
 import React,{useState} from "react";
+import axios from "axios";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
-
-
 function Login(){
     const [showPassword, setShowPassword] = useState(false);
     const [userInput, setUserInput] = useState({username:"", password:""});
     const [errorMessage, setErrorMessage]= useState("");
-
-    //Mock Data
-    const validUser = {
-            username: "monday50",
-            password: "password123"
-        }
 
      function revealPassword(){
         setShowPassword(true)
@@ -28,34 +21,42 @@ function Login(){
         console.log("Password Hidden");
     }
 
-    function handleFormSubmit(e){
+    async function handleFormSubmit(e){
         e.preventDefault();
         setErrorMessage("");
 
         //User Login Validation
-         //Grab the absolute freshest data directly from the HTML inputs
-        const formData = new FormData(e.currentTarget);
-        const enteredUsername = formData.get("username")?.trim();
-        const enteredPassword = formData.get("password");
-
-         //  Validate emptiness first
-        if (!enteredUsername || !enteredPassword) {
-            setErrorMessage("Fields cannot be empty.");
+        if (!userInput.username.trim() || !userInput.password) {
+            setErrorMessage("Fields cannot be empty");
             return; 
         }
+        try{
+            const response = await axios.post("http://localhost:3000/api/login",userInput)
 
-        //  Compare the fresh input data against the valid record
-        if (enteredUsername !== validUser.username || enteredPassword !== validUser.password) {
-            setErrorMessage("Login failed! Wrong username or password.");
-            return; 
-        }
- 
+            //Extract the token and safe user details sent by express
+            const {token, user} = response.data;
+            
+            // Save the token into the browser's memory
+            localStorage.setItem("authToken", token);
+
             // If user succeed
             setErrorMessage("Login Successful!") 
-
-            // Cler the state object
+            // Clear the state object
             setUserInput({username: "", password: ""});
-            console.log("Form cleared and redirecting to dashboard!")
+            
+            //Redirect user to dashboard
+            setTimeout(()=>{
+                navigate("/dashboard");
+            },1000)
+
+        }catch(error){
+            console.error(error.message);
+            if(error.response && error.response.data){
+                setErrorMessage(error.response.data.message);
+            }else {
+                 setErrorMessage("Login Failed, Please try again later!");
+            }
+        }      
     }
 
     function handleUserInput(e){

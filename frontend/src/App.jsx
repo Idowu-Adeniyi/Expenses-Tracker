@@ -174,7 +174,7 @@ function App() {
         </div>
       )} */}
       <Register/>
-      {/* <Login/> */}
+      <Login/>
     </>
   )
 }
