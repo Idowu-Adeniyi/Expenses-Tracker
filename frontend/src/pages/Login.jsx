@@ -37,9 +37,10 @@ function Login(){
 
             //Extract the token and safe user details sent by express
             const {token, user} = response.data;
-
+          
             // Save the token into the browser's memory
             localStorage.setItem("authToken", token);
+            localStorage.setItem("currentUser", JSON.stringify(user));
 
             // If user succeed
             setErrorMessage("Login Successful!") 

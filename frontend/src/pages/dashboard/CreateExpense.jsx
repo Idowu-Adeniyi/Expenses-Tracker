@@ -22,6 +22,16 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
     // Calendar format into YYYY-MM-DD string
     const formattedDate = rawDate.toISOString().split("T")[0];
 
+
+    // Read logged-in user profile from browser memory
+    const savedUser = localStorage.getItem("currentUser");
+    let activeUserId = null;
+
+    if (savedUser) {
+      const userObject = JSON.parse(savedUser);
+      activeUserId = userObject.id || userObject.user_id;
+    }
+
     try {
       if (inputData.id) {
         const response = await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
@@ -37,11 +47,13 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
         const response = await axios.post("http://localhost:3000/api/expenses", {
           description: description, 
           amount: Number(amount), 
-          date: formattedDate
+          date: formattedDate,
+          user_id: activeUserId 
         });
 
         // The backend sends back the newly saved database row
         const savedExpense = response.data;
+
 
         // Send that item backup to APP.jsx to append to the master array
         handleAddNewExpense(savedExpense);

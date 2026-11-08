@@ -1,13 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import heroImg from './assets/hero.png'
-import './App.css'
-import Header from './components/Header'
-import CreateExpense from '/src/pages/dashboard/CreateExpense'
-import AllExpenses from '/src/pages/dashboard/AllExpenses'
-import Login from '/src/pages/Login'
-import Register from '/src/pages/Register'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import heroImg from './assets/hero.png';
+import './App.css';
+import Header from './components/Header';
+import CreateExpense from '/src/pages/dashboard/CreateExpense';
+import AllExpenses from '/src/pages/dashboard/AllExpenses';
+import Login from '/src/pages/Login';
+import Register from '/src/pages/Register';
 
 function App() {
   // This state tracks your complete list of expenses
@@ -22,6 +22,7 @@ function App() {
     amount: "", 
     date: new Date()
   });
+
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -56,14 +57,23 @@ function App() {
     setShowForm(true);
   }
 
+  async function getAllExpenses(userIdFromArgument) {
+    let targetId = userIdFromArgument;
 
+    if (!targetId) {
+      const savedUser = localStorage.getItem("currentUser");
+      if (savedUser) {
+        const userObject = JSON.parse(savedUser);
+        targetId = userObject.id || userObject.user_id;
+      }
+    }
 
-
-  async function getAllExpenses() {
+    // If there is no user ID found anywhere yet, stop immediately
+    if (!targetId) return;
+    
     try {
-      
       // Get all expense from backend api route
-      const response = await axios.get("http://localhost:3000/api/expenses");
+      const response = await axios.get(`http://localhost:3000/api/expenses/user/${targetId}`);
 
       console.log("1. API Status:", response.status);
       console.log("2. Fetched Data:", response.data);
@@ -74,10 +84,23 @@ function App() {
       console.error("Failed to load Expenses from database", error)
     }
   }
+  
 
   useEffect(() => {
-    getAllExpenses();
+    // Try to grab the authenticated token or user data from localstorage
+    const savedToken = localStorage.getItem("authToken");
+    const savedUser = localStorage.getItem("currentUser"); // Grabs the plain user text
+  
+    if(savedToken && savedUser){
+      const userObject = JSON.parse(savedUser);
+      console.log(userObject)
+      // Dynamiically extract the user ID
+      const dynamicUserId = userObject.id;
+      console.log(dynamicUserId) 
+      getAllExpenses(dynamicUserId);
+    }
   }, []);
+  
 
   // When form successfully saves an item, it will pass it here to update the list
   function handleAddNewExpense(savedExpense) {

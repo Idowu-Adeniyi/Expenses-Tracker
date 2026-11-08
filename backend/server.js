@@ -5,7 +5,12 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" with { type: "json" };
+
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(express.json());
 app.use(cors());
 // app.use(cors({
@@ -113,10 +118,10 @@ app.post("/api/login", async (req, res) =>{
 })
 
 
-// CREATE A POST
+// CREATE A NEW EXPENSE
 app.post("/api/expenses", async (req, res) => {
   try {
-    const { description, amount, date } = req.body;
+    const { description, amount, date, user_id } = req.body;
 
     // Validate inputs
     if (!description || !amount || !date || description.trim() === "" || date.trim() === "") {
@@ -132,14 +137,14 @@ app.post("/api/expenses", async (req, res) => {
     }
 
     const newExpense = await pool.query(
-      "INSERT INTO expenses(description, amount, date) VALUES ($1, $2, $3) RETURNING *", 
-      [description, amount, date]
+      "INSERT INTO expenses (description, amount, date, user_id) VALUES ($1, $2, $3, $4) RETURNING *", 
+      [description, amount, date, user_id]
     );
     res.status(201).json(newExpense.rows[0]);
 
   } catch(error) {
     console.error(error.message);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server error" });
   }
 });
 

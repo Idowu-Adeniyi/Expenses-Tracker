@@ -1,0 +1,180 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Expense Tracker API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root test endpoint",
+        "responses": {
+          "200": { "description": "Returns Hello World" }
+        }
+      }
+    },
+    "/api/register": {
+      "post": {
+        "summary": "Register a new user account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "monday50" },
+                  "password": { "type": "string", "example": "password123" },
+                  "confirmpassword": { "type": "string", "example": "password123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User registered successfully" },
+          "400": { "description": "Fields cannot be empty or passwords do not match" },
+          "409": { "description": "Username already taken" },
+          "500": { "description": "Server Error" }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "Log in an existing user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "monday50" },
+                  "password": { "type": "string", "example": "password123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login successful" },
+          "401": { "description": "Invalid username or password" },
+          "500": { "description": "Server Error" }
+        }
+      }
+    },
+    "/api/expenses": {
+      "post": {
+        "summary": "Create a new expense entry",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string", "example": "Groceries" },
+                  "amount": { "type": "number", "example": 45.50 },
+                  "date": { "type": "string", "format": "date", "example": "2026-11-06" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Expense entry created successfully" },
+          "400": { "description": "Fields cannot be empty or amount is invalid" },
+          "500": { "description": "Server Error" }
+        }
+      }
+    },
+    "/api/expenses/user/{userId}": {
+      "get": {
+        "summary": "Get all expenses recorded by a specific user ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Successfully retrieved user expenses list" },
+          "500": { "description": "Server Error" }
+        }
+      }
+    },
+    "/api/expenses/{id}": {
+      "get": {
+        "summary": "Get a specific expense entry by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": { "description": "Expense found and returned" },
+          "400": { "description": "Invalid ID format, must be a number" },
+          "404": { "description": "Expense not found" },
+          "500": { "description": "Server Error" }
+        }
+      },
+      "put": {
+        "summary": "Update an existing expense entry details by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string", "example": "Updated Groceries" },
+                  "amount": { "type": "number", "example": 50.00 },
+                  "date": { "type": "string", "format": "date", "example": "2026-11-06" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Expense entry updated successfully" },
+          "400": { "description": "Invalid input fields or missing values" },
+          "404": { "description": "Expense not found" },
+          "500": { "description": "Server Error" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an expense entry from the database by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": { "description": "Expense entry deleted successfully" },
+          "404": { "description": "Expense not found" },
+          "500": { "description": "Internal server error occurred while deleting" }
+        }
+      }
+    }
+  }
+}
