@@ -82,7 +82,7 @@ function Login(){
                 <div className="logo-wrapper">
                 <h2 className="login-text">Login</h2>
                 </div>
-                
+               
                 <form onSubmit={handleFormSubmit}>
                 <label htmlFor="username">Username:</label>
                 <input name="username" value={userInput.username}  type="text" placeholder="Enter username" onChange={handleUserInput}/>

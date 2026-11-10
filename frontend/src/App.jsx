@@ -1,65 +1,45 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from 'axios';
-import heroImg from './assets/hero.png';
 import './App.css';
-import Header from './components/Header';
-import CreateExpense from '/src/pages/dashboard/CreateExpense';
-import AllExpenses from '/src/pages/dashboard/AllExpenses';
-import Login from '/src/pages/Login';
-import Register from '/src/pages/Register';
+import DashboardLayout from "./components/DashboardLayout";
+import DashboardOverview from "./pages/dashboard/DashboardOverview"; // Your default route overview
+import CreateExpense from "./pages/dashboard/CreateExpense";
+import AllExpenses from "./pages/dashboard/AllExpenses";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
-  // This state tracks your complete list of expenses
-  const [expense, setExpense] = useState([]);
   const [allExpense, setAllExpense] = useState([]);
-  const [showForm, setShowForm] = useState(false);
   const [notification, setNotification] = useState("");
-  const [editingExpense, setEditingExpense] = useState(null); 
-  const [expenseDate, setExpenseDate] = useState(new Date());
   const [inputData, setInputData] = useState({
     description: "",
     amount: "", 
     date: new Date()
   });
 
-
   function handleChange(e) {
-    const { name, value } = e.target
-    setInputData((prevData) => {
-      return {
-        ...prevData,
-        [name]: value
-      };
-    });
+    const { name, value } = e.target;
+    setInputData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   }
 
   function showToast(message) {
     setNotification(message);
-        
-    // Make it disappear automatically after 3 seconds
-    setTimeout(() => {
-      setNotification("");
-    }, 3000);
+    setTimeout(() => setNotification(""), 3000);
   }
 
   function handleDateChange(selectedDate) {
-    setInputData((prevData) => {
-      return {
-        ...prevData,
-        date: selectedDate
-      };
-    });
-  }
-  
-  //Handle Show Expense
-  function handleShowForm() {
-    setShowForm(true);
+    setInputData((prevData) => ({
+      ...prevData,
+      date: selectedDate
+    }));
   }
 
   async function getAllExpenses(userIdFromArgument) {
     let targetId = userIdFromArgument;
-
     if (!targetId) {
       const savedUser = localStorage.getItem("currentUser");
       if (savedUser) {
@@ -67,153 +47,92 @@ function App() {
         targetId = userObject.id || userObject.user_id;
       }
     }
-
-    // If there is no user ID found anywhere yet, stop immediately
     if (!targetId) return;
     
     try {
-      // Get all expense from backend api route
       const response = await axios.get(`http://localhost:3000/api/expenses/user/${targetId}`);
-
-      console.log("1. API Status:", response.status);
-      console.log("2. Fetched Data:", response.data);
-
-      // put the database items into the state
       setAllExpense(response.data);
     } catch(error) {
-      console.error("Failed to load Expenses from database", error)
+      console.error("Failed to load Expenses from database", error);
     }
   }
   
-
   useEffect(() => {
-    // Try to grab the authenticated token or user data from localstorage
     const savedToken = localStorage.getItem("authToken");
-    const savedUser = localStorage.getItem("currentUser"); // Grabs the plain user text
-  
+    const savedUser = localStorage.getItem("currentUser");
     if(savedToken && savedUser){
       const userObject = JSON.parse(savedUser);
-      console.log(userObject)
-      // Dynamiically extract the user ID
-      const dynamicUserId = userObject.id;
-      console.log(dynamicUserId) 
-      getAllExpenses(dynamicUserId);
+      getAllExpenses(userObject.id);
     }
   }, []);
-  
 
-  // When form successfully saves an item, it will pass it here to update the list
   function handleAddNewExpense(savedExpense) {
-    setExpense((prevExpense) => {
-      return [...prevExpense, savedExpense];
-    });
+    setAllExpense((prevExpense) => [...prevExpense, savedExpense]);
   }
 
-  // Updating the List Array
   function handleUpdateExpenseList(updatedExpense) {
-    setAllExpense((prevExpense) => {
-      return prevExpense.map((item) => {
-        //if the ID matches the edited, replace it with new data
-        return item.id === updatedExpense.id ? updatedExpense : item;
-      });
-    });
-    // Send the user back to the list view
-    setShowForm(false);
+    setAllExpense((prevExpense) => 
+      prevExpense.map((item) => item.id === updatedExpense.id ? updatedExpense : item)
+    );
   }
 
   async function deleteExpense(id) {
-    //Confirmation popup and store true/false
-    const userConfirmed = window.confirm("Are you sure you want to delete this expense?")
-    if(!userConfirmed) {
-      return;
-    }
+    const userConfirmed = window.confirm("Are you sure you want to delete this expense?");
+    if(!userConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/expenses/${id}`)
-
-      setAllExpense((prevExpense) => {
-        return prevExpense.filter((item) => {
-          return item.id !== id;
-        });
-      });
-   
-      setTimeout(() => {
-        alert("Item deleted successfully")
-      }, 100); 
-
+      await axios.delete(`http://localhost:3000/api/expenses/${id}`);
+      setAllExpense((prevExpense) => prevExpense.filter((item) => item.id !== id));
+      setTimeout(() => alert("Item deleted successfully"), 100); 
     } catch(error) {
-      console.error(error.message)
+      console.error(error.message);
       alert("Failed to delete the item. Please try again.");
     } 
   }
 
-  // Updating expense
-  async function updateExpense(id) {
-    setShowForm(true);
-    try {
-      const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
-
-      setInputData(response.data)
-      console.log(response.data.date)
-
-    } catch(error) {
-      console.error(error.message)
-      alert("Failed to update expense")
-    }    
-  }
+  // Pack up state and handler operations into a clean bundle for useOutletContext()
+  const contextData = {
+    allExpense,
+    inputData,
+    setInputData,
+    handleChange,
+    handleDateChange,
+    handleAddNewExpense,
+    handleUpdateExpenseList,
+    showToast,
+    deleteExpense,
+    getAllExpenses
+  };
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          {/*  Public Auth Pages */}
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <BrowserRouter>
+      <Routes>
+        {/* Public Auth Pages */}
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-          {/*  Your Protected Workspace Dashboard View */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <>
-                <Header
-                  showForm={showForm}
-                  getAllExpenses={() => {
-                    setShowForm(false);
-                    getAllExpenses();
-                  }} 
-                  handleShowForm={handleShowForm}
-                />
-
-                {showForm ? (
-                  <CreateExpense 
-                    handleAddNewExpense={handleAddNewExpense}
-                    handleUpdateExpenseList={handleUpdateExpenseList}
-                    inputData={inputData}
-                    showToast={showToast} 
-                    handleChange={handleChange} 
-                    handleDateChange={handleDateChange} 
-                    setInputData={setInputData} 
-                  /> 
-                ) : (
-                  <AllExpenses
-                    allExpense={allExpense} 
-                    deleteExpense={deleteExpense} 
-                    updateExpense={updateExpense} 
-                  />
-                )}
-
-                {notification && (
-                  <div className="toast-notification">
-                    {notification}
-                  </div>
-                )}
-              </>
-            } 
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+        {/* Protected Dashboard Layout Core Wrapper */}
+        <Route 
+          path="/dashboard" 
+          element={<DashboardLayout notification={notification} contextData={contextData} />}
+        >
+          {/* Index Route handles the default root endpoint: /dashboard */}
+          <Route index element={<AllExpenses />} />
+          
+          {/* Form Routing endpoints: /dashboard/create-expense */}
+          <Route path="create-expense" element={<CreateExpense />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
+
+
+
+
+
+
+
+

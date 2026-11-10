@@ -1,29 +1,39 @@
-import React, { useState } from "react";
+import React, {useEffect} from "react";
 import DatePicker from "react-datepicker";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 
-function CreateExpense({ inputData, setInputData, handleChange, handleDateChange, handleAddNewExpense, handleUpdateExpenseList, showToast }) {
-   
+function CreateExpense() {
+  // Grab shared properties automatically from the Layout
+  const { 
+    inputData, 
+    setInputData, 
+    handleChange, 
+    handleDateChange, 
+    handleAddNewExpense, 
+    handleUpdateExpenseList, 
+    showToast 
+  } = useOutletContext();
+
+  const navigate = useNavigate();
+
   async function handleFormSubmit(e) {
     e.preventDefault();
 
-    // Pull values out of the object state for easy validation
     const description = inputData.description;
     const amount = inputData.amount;
     const rawDate = inputData.date;
 
-    // Local input validation check
     if (!description || !amount || !rawDate || description.trim() === "") {
       showToast("Please fill out all fields!");
       return;
     }
     
-    // Calendar format into YYYY-MM-DD string
-    const formattedDate = rawDate.toISOString().split("T")[0];
+    // Safety verification check if it's a raw date object
+    const parsedDate = rawDate instanceof Date ? rawDate : new Date(rawDate);
+    const formattedDate = parsedDate.toISOString().split("T")[0];
 
-
-    // Read logged-in user profile from browser memory
     const savedUser = localStorage.getItem("currentUser");
     let activeUserId = null;
 
@@ -40,7 +50,6 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
           date: formattedDate
         });
         
-        // Passing the updated database row back to App.js to update the list view
         handleUpdateExpenseList(response.data);
         showToast("Expense updated successfully!");
       } else {
@@ -51,22 +60,18 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
           user_id: activeUserId 
         });
 
-        // The backend sends back the newly saved database row
-        const savedExpense = response.data;
-
-
-        // Send that item backup to APP.jsx to append to the master array
-        handleAddNewExpense(savedExpense);
-
+        handleAddNewExpense(response.data);
         showToast("Expense saved successfully!");
       }
       
-      // clear out the form inputs
       setInputData({
         description: "",
         amount: "",
         date: new Date()
       });
+      
+      // Instantly route back to main lists view naturally
+      navigate("/dashboard");
         
     } catch(error) {
       console.error("failed to save to database", error);
@@ -105,14 +110,11 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
         </div>
         <div className="date-picker">
           <DatePicker 
-            selected={inputData.date} 
-            onChange={(selectedDate) => {
-              return handleDateChange(selectedDate);
-            }} 
+            selected={inputData.date instanceof Date ? inputData.date : new Date(inputData.date)} 
+            onChange={(selectedDate) => handleDateChange(selectedDate)} 
             inline 
             dateFormat="yyyy-MM-dd"
           />
-          {/* <input type="date" id="datePicker" name="date" required/> */}
         </div>
       </div>
       <div className="btn-container">
@@ -121,7 +123,11 @@ function CreateExpense({ inputData, setInputData, handleChange, handleDateChange
         </button>
       </div>
     </form>
-  )
+  );
 }
 
 export default CreateExpense;
+
+
+
+

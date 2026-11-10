@@ -1,31 +1,44 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Header(props) {
+
+  function handleNewExpenseClick(){
+    if(props.setInputData) {
+      props.setInputData({
+        description: "",
+        amount: "",
+        date: new Date()
+      });
+    }
+  }
   return (
     <div className="header-container">
       <h1 className="logoText">Expense Tracker</h1>
       <div className="header-btn">
         <p>
-          <a 
-            href="#" 
-            onClick={props.getAllExpenses} 
-            className={!props.showForm ? "active" : ""}
+          {/* end ensures it only matches exactly "/dashboard" */}
+          <NavLink 
+            to="/dashboard" 
+            end
+            className={({ isActive }) => isActive ? "active" : ""}
           >
             All Expenses
-          </a>
+          </NavLink>
         </p>
         <p>
-          <a 
-            href="#" 
-            onClick={props.handleShowForm} 
-            className={props.showForm ? "active" : ""}
+          <NavLink 
+            to="/dashboard/create-expense" 
+            onClick={handleNewExpenseClick}
+            className={({ isActive }) => isActive ? "active" : ""}
           >
             New Expense
-          </a>
+          </NavLink>
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 export default Header;
+

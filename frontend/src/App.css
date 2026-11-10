@@ -279,7 +279,8 @@ h2{
 
 .right-content h2.login-text{
    font-size: 30px;
-   align-items:center;
+   /* text-align:center; */
+   
 }
 
 

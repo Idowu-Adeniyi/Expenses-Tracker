@@ -1,13 +1,33 @@
 import React from "react";
-import Header from "../../components/Header";
+import { useOutletContext, useNavigate } from "react-router-dom";
+import axios from "axios"; 
 
-function AllExpenses(props) {
-  // 1. Calculate total expenses using reduce
-  const totalExpenses = props.allExpense.reduce((accumulator, item) => {
-    // Convert to Number to prevent bugs if amount is passed as a string
+function AllExpenses() {
+  // Grab shared properties automatically from the Layout Context
+  const { allExpense, deleteExpense, setInputData } = useOutletContext();
+  const navigate = useNavigate();
+
+  const totalExpenses = allExpense.reduce((accumulator, item) => {
     const amount = Number(item.amount) || 0; 
     return accumulator + amount;
   }, 0);
+
+  // Pre-fill form state configuration details and swap screens gracefully via URLs
+  async function triggerEditRoute(id) {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
+      
+      // Parse the date string safely into a JS object for the Datepicker element
+      const fetchedExpense = response.data;
+      fetchedExpense.date = fetchedExpense.date ? new Date(fetchedExpense.date) : new Date();
+      
+      setInputData(fetchedExpense);
+      navigate("/dashboard/create-expense");
+    } catch(error) {
+      console.error(error.message);
+      alert("Failed to fetch expense details for editing");
+    }
+  }
 
   return (
     <div className="list-items">
@@ -19,21 +39,23 @@ function AllExpenses(props) {
         <p>Action</p>        
       </div>
       <ul>
-        {props.allExpense.map((item) => {
+        {allExpense.map((item) => {
           return (
             <li key={item.id} className="list-data">
               <span className="row-data">{item.description}</span>
               <span className="row-data">$ {item.amount} CAD</span> 
-              <span className="row-data">{item.date.split("T")[0]}</span>
+              <span className="row-data">
+                {item.date ? item.date.split("T")[0] : ""}
+              </span>
               <div className="btn-action">
                 <button 
-                  onClick={() => props.updateExpense(item.id)} 
+                  onClick={() => triggerEditRoute(item.id)} 
                   className="btn-edit"
                 >
                   Edit
                 </button>
                 <button 
-                  onClick={() => props.deleteExpense(item.id)} 
+                  onClick={() => deleteExpense(item.id)} 
                   className="btn-delete"
                 >
                   Delete
@@ -51,3 +73,5 @@ function AllExpenses(props) {
 }
 
 export default AllExpenses;
+
+
