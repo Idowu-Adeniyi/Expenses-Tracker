@@ -12,3 +12,10 @@ body{
   box-sizing: border-box;
   background-color:#F1F5F9;
 }
+
+main {
+  flex: 1; /* Forces main to fill all remaining vertical space */
+   border: 2px solid red;
+}
+
+

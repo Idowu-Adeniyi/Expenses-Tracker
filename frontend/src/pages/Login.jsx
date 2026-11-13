@@ -76,7 +76,8 @@ function Login(){
         <>
         <div className="login-container">
             <div className="left-content login-bg">
-                <h2 className="logo">Expen$e<span className="logo-text">Tracker</span></h2>
+                <h2 className="logo">Expen$e<span className="logo-text">Tracker</span>
+                </h2>
             </div>
             <div className="right-content">
                 <div className="logo-wrapper">

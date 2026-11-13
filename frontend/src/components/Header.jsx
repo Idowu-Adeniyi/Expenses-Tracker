@@ -3,37 +3,32 @@ import { NavLink } from "react-router-dom";
 
 function Header(props) {
 
-  function handleNewExpenseClick(){
-    if(props.setInputData) {
-      props.setInputData({
-        description: "",
-        amount: "",
-        date: new Date()
-      });
-    }
-  }
   return (
+    
     <div className="header-container">
-      <h1 className="logoText">Expense Tracker</h1>
-      <div className="header-btn">
+      <header className="header-bar">
+      <div className="left-content dashboard-container">
+        <h2 className="logo-dashboard">Expen$e<span className="logo-text logo-text-dashboard">Tracker</span></h2>
+      </div>
+      </header>
+     <div className="header-btn">
         <p>
-          {/* end ensures it only matches exactly "/dashboard" */}
-          <NavLink 
-            to="/dashboard" 
-            end
-            className={({ isActive }) => isActive ? "active" : ""}
-          >
-            All Expenses
-          </NavLink>
+          SEARCH BAR
         </p>
         <p>
-          <NavLink 
-            to="/dashboard/create-expense" 
-            onClick={handleNewExpenseClick}
-            className={({ isActive }) => isActive ? "active" : ""}
-          >
-            New Expense
-          </NavLink>
+          NOTIFICATION BELL
+        </p>
+        <p>
+          AI ICON
+        </p>
+        <p>
+          AVATAR PROFILE
+        </p>
+        <p>
+          USER NAME
+        </p>
+        <p>
+          super admin
         </p>
       </div>
     </div>
@@ -41,4 +36,7 @@ function Header(props) {
 }
 
 export default Header;
+
+
+
 

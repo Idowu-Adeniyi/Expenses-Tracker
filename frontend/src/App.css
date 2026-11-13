@@ -1,4 +1,4 @@
-.header-container{
+/* .header-container{
     display: flex;
     color: white;
     margin-left: 120px;
@@ -8,7 +8,7 @@
     justify-content:space-between;
     text-align:center;
 
-}
+} */
 
 .form-container{
    font-size:large;
@@ -37,7 +37,7 @@ input{
     border:solid 2px white;
     background-color:black;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 10px;
     padding-left:10px;
     box-sizing: border-box;
@@ -133,10 +133,11 @@ ul{
     margin:0;
 }
 
-h2{
+ h2{
     margin-top:100px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
+
 
 .btn-action .btn-edit {
     margin-right:20px;
@@ -193,48 +194,57 @@ h2{
 
 .login-container{
     display:grid;
-    /* grid-template-columns:1fr 1fr; */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    height: 100vh;
-    gap:1rem;
-    padding:1rem;
+    grid-template-columns:1fr 1fr;
+    /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    /* s */
+    /* gap:1rem; */
+    /* padding:1rem; */
     background-color:rgb(66, 134, 66);
     box-sizing:border-box;
-    max-width: 1500px; 
-    margin: 0 auto;    
-    padding: 0 24px;   
+    /* max-width: 1500px;  */
+    /* margin: 0 auto;     */
+    /* padding: 0 24px;    */
+    height: 100vh;
+    
 }
+
 
 .left-content h2{
     background-color:white;
     color:rgb(12, 81, 12);
-    height:65px;
+    /* height:65px; */
     font-size: 50px; 
     /* background-color: transparent;  */
+    text-align:center;
 }
 
 
 .left-content h2 .logo-text{
     color:rgb(41, 116, 41);
-    height:65px;
     font-size: 50px; 
     font-weight:lighter;
     padding-right:7px;
-    padding-left:7px;
+    /* padding-left:5px; */
 }
 
+.dashboard-container h2 .logo-text-dashboard{
+    color:rgb(41, 116, 41);
+    font-size: 23px; 
+    font-weight:lighter;
+}
+
+.dashboard-container h2{
+   /* background-color:#F1F5F9; */
+   color:rgb(12, 81, 12);
+   font-size: 23px;
+   margin:auto;
+   
+}
 
 .left-content {
-   display:flex;
-   flex-direction:column;
-   align-items:center;
-   border-radius:10px;
    background-repeat: no-repeat;
    background-size: cover;
    box-sizing:border-box;
-   margin-top:65px;
-   margin-bottom:65px;
-   margin-left:65px;
 }
 
 .login-bg{
@@ -250,7 +260,7 @@ h2{
     width:100%;
     /* height: 60px; */
     /* height: 48px; */
-    height: 56px;
+    height: 60px;
     border: none;
     border-radius: 10px;
     background-color:rgb(12, 81, 12);
@@ -268,12 +278,13 @@ h2{
 
 .right-content{
     background-color:rgb(66, 134, 66);
-    margin-right:100px;
-    margin-left:100px;
-    margin-top:50px;
+    margin-right:110px;
+    margin-left:110px;
+    margin-top:60px;
     color:white;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     box-sizing:border-box;
+   
 }
 
 
@@ -286,9 +297,7 @@ h2{
 
 .right-content input{
     width:100%;
-    /* height: 60px; */
-    /* height: 44px; */
-    height: 52px;
+    height: 55px;
     border-radius: 10px;
     margin-bottom: 15px;
     background-color:rgb(136, 200, 136);
@@ -306,7 +315,7 @@ h2{
 
 .input-icon{
     position:absolute;
-    margin-left: -31rem;
+    margin-left: -38rem;
     margin-top: 23px;
     pointer-events: none;  
 }
@@ -331,10 +340,11 @@ h2{
    
 }
 
-
 .logo{
     margin-top:20rem;
+    height:65px;
 }
+
 
 .account-prompt a{
     color: #FFDE4D;            
@@ -368,4 +378,64 @@ h3 .error-highlight-text{
     font-size:medium;
 }
 
+/* Full-screen wrapper (NO max-width here so Header stays full-width!) */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  
+}
 
+/* 1. Full-width top header */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color:white; 
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 24px;
+  box-sizing: border-box;
+  position:sticky;
+  top:0;
+  z-index:100;
+  /* max-width: 1280px; */
+  height: 70px;
+  margin: 0 auto;
+   /* Automatically calculates the exact side gap outside 1280px + 24px padding */
+  /* padding-left: max(24px, calc((100% - 1280px) / 2 + 24px));
+  padding-right: max(24px, calc((100% - 1280px) / 2 + 24px)); */
+  padding-left: max(24px, calc((100% - 1280px) / 2 ));
+  padding-right: max(24px, calc((100% - 1280px) / 2));
+
+}
+
+/* 2. Centered 1200px content boxes below the header */
+.dashboard-top-panel,
+.dashboard-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+
+.aside-main-wrapper{
+    display:grid;
+    grid-template-columns:250px 1fr;
+    border:solid 2px red;
+    max-width: 1280px;
+    gap: 24px; 
+    width: 100%;       /* Makes sure it fills up to 1280px */
+    margin: 0 auto;    /* Centers the entire 1280px wrapper horizontally */
+    flex: 1; /* Stretches the grid wrapper to fill the rest of the screen height */
+    box-sizing: border-box;
+    padding: 24px;
+}
+
+aside{
+border:solid 2px red;
+}

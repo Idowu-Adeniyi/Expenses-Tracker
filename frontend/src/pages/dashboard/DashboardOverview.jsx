@@ -1,11 +1,12 @@
 import React from "react";
 
-function dashboard(){
-    return(
-        <>
-        <h1>Dashboard</h1>
-        </>
-    )
+function DashboardOverview() {
+  return (
+    <div className="overview-container">
+      <h2>Dashboard Overview</h2>
+      <p>Welcome back! Select an option above or view your recent activity here.</p>
+    </div>
+  );
 }
 
-export default dashboard;
+export default DashboardOverview;

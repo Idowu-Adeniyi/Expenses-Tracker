@@ -117,9 +117,10 @@ function App() {
           element={<DashboardLayout notification={notification} contextData={contextData} />}
         >
           {/* Index Route handles the default root endpoint: /dashboard */}
-          <Route index element={<AllExpenses />} />
+          <Route index element={<DashboardOverview />} />
           
           {/* Form Routing endpoints: /dashboard/create-expense */}
+          <Route path="all-expenses" element={<AllExpenses />} />
           <Route path="create-expense" element={<CreateExpense />} />
         </Route>
       </Routes>

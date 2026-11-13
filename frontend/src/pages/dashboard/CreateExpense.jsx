@@ -71,7 +71,7 @@ function CreateExpense() {
       });
       
       // Instantly route back to main lists view naturally
-      navigate("/dashboard");
+      navigate("/dashboard/all-expenses");
         
     } catch(error) {
       console.error("failed to save to database", error);
