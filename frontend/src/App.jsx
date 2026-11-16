@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import './App.css';
@@ -9,6 +9,18 @@ import AllExpenses from "./pages/dashboard/AllExpenses";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+
+function ProtectedRoute() {
+  const token = localStorage.getItem("authToken");
+
+  // If no token exists, immediately kick the user back to Login
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+  // Otherwise, allow them to view the dashboard routes
+  return <Outlet />;
+ }
+
 function App() {
   const [allExpense, setAllExpense] = useState([]);
   const [notification, setNotification] = useState("");
@@ -17,6 +29,7 @@ function App() {
     amount: "", 
     date: new Date()
   });
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -57,14 +70,14 @@ function App() {
     }
   }
   
-  useEffect(() => {
-    const savedToken = localStorage.getItem("authToken");
-    const savedUser = localStorage.getItem("currentUser");
-    if(savedToken && savedUser){
-      const userObject = JSON.parse(savedUser);
-      getAllExpenses(userObject.id);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedToken = localStorage.getItem("authToken");
+  //   const savedUser = localStorage.getItem("currentUser");
+  //   if(savedToken && savedUser){
+  //     const userObject = JSON.parse(savedUser);
+  //     getAllExpenses(userObject.id);
+  //   }
+  // }, []);
 
   function handleAddNewExpense(savedExpense) {
     setAllExpense((prevExpense) => [...prevExpense, savedExpense]);
@@ -101,27 +114,31 @@ function App() {
     handleUpdateExpenseList,
     showToast,
     deleteExpense,
-    getAllExpenses
+    getAllExpenses,
+    setAllExpense
   };
 
   return (
+
     <BrowserRouter>
       <Routes>
         {/* Public Auth Pages */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Dashboard Layout Core Wrapper */}
-        <Route 
-          path="/dashboard" 
-          element={<DashboardLayout notification={notification} contextData={contextData} />}
-        >
-          {/* Index Route handles the default root endpoint: /dashboard */}
-          <Route index element={<DashboardOverview />} />
-          
-          {/* Form Routing endpoints: /dashboard/create-expense */}
-          <Route path="all-expenses" element={<AllExpenses />} />
-          <Route path="create-expense" element={<CreateExpense />} />
+        {/* 2. Wrap your Dashboard routes inside ProtectedRoute */}
+        <Route element={<ProtectedRoute />}>
+          <Route 
+            path="/dashboard" 
+            element={<DashboardLayout notification={notification} contextData={contextData} />}
+          >
+            {/* Index Route handles the default root endpoint: /dashboard */}
+            <Route index element={<DashboardOverview />} />
+            
+            {/* Form Routing endpoints: /dashboard/create-expense */}
+            <Route path="all-expenses" element={<AllExpenses />} />
+            <Route path="create-expense" element={<CreateExpense />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

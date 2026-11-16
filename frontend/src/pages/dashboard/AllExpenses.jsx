@@ -1,6 +1,8 @@
 import React from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios"; 
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 function AllExpenses() {
   // Grab shared properties automatically from the Layout Context
@@ -33,40 +35,37 @@ function AllExpenses() {
     <div className="list-items">
       <h2>All Expenses</h2>
       <div className="table-head">
+        <p>Date</p> 
         <p>Invoice</p>
-        <p>Amount</p>
-        <p>Date</p>        
-        <p>Action</p>        
+        <p>Amount</p>    
+        <p>Actions</p>        
       </div>
       <ul>
         {allExpense.map((item) => {
           return (
             <li key={item.id} className="list-data">
-              <span className="row-data">{item.description}</span>
-              <span className="row-data">$ {item.amount} CAD</span> 
               <span className="row-data">
                 {item.date ? item.date.split("T")[0] : ""}
               </span>
+              <span className="row-data">{item.description}</span>
+              <span className="row-data">${item.amount} CAD</span> 
               <div className="btn-action">
-                <button 
-                  onClick={() => triggerEditRoute(item.id)} 
+                <BorderColorOutlinedIcon
+                onClick={() => triggerEditRoute(item.id)} 
                   className="btn-edit"
-                >
-                  Edit
-                </button>
-                <button 
-                  onClick={() => deleteExpense(item.id)} 
+                />
+                <DeleteOutlinedIcon 
+                onClick={() => deleteExpense(item.id)} 
                   className="btn-delete"
-                >
-                  Delete
-                </button>
+                />
+
               </div>
             </li>
           );
         })}
       </ul>
       <div className="total-expense-footer">
-        <p><strong>Total Expenses:</strong> $ {totalExpenses.toFixed(2)} CAD</p>
+        <p>Total Expenses:<strong> ${totalExpenses.toFixed(2)} CAD</strong></p>
       </div>
     </div>
   );

@@ -49,12 +49,10 @@ function Register(){
             return;
          }   
          
-
        try{
          const response = await axios.post("http://localhost:3000/api/register", userInput);
-
             //if  Registration succeed 
-        setErrorMessage("Registration Successful!");
+        setErrorMessage("Account created! Please log in!");
         console.log("Database saved:", response.data.user);
 
         // Clear fields
@@ -62,8 +60,8 @@ function Register(){
 
         //Redirect back to login page
         setTimeout(()=> {
-            navigate("/login");
-        });
+            navigate("/");
+        }, 2000);
 
        }catch(error){
         console.error("Frontend registration error", error.message)
@@ -104,7 +102,7 @@ function Register(){
 
                 {showPassword? (<VisibilityOutlinedIcon className="input-icon-password" onClick={togglePassword}/>) : (<VisibilityOffOutlinedIcon  className="input-icon-password" onClick={togglePassword}/>)}
 
-                <h3 className = {errorMessage === "Registration Successful!" ? "login-success" : "login-failed" }>
+                <h3 className = {errorMessage === "Account created! Please log in!" ? "login-success" : "login-failed" }>
                     {errorMessage}
                 </h3> 
 

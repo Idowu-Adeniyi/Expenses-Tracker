@@ -15,7 +15,48 @@ body{
 
 main {
   flex: 1; /* Forces main to fill all remaining vertical space */
-   border: 2px solid red;
+   /* border: 2px solid red; */
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;             
+  border-radius: 12px;                    
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensures <button> and <input> elements inherit Inter too (browsers don't do this by default!) */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* Recommended global heading & link hierarchy */
+h1 {
+  font-size: 1.75rem; /* 28px */
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1rem;    /* 16px */
+  font-weight: 600;
+}
+
+a {
+  font-weight: 500;
 }
 
 
