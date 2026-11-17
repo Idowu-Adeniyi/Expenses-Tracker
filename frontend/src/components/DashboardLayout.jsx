@@ -45,11 +45,10 @@ function DashboardLayout({ notification, contextData }) {
 
   return (
     <div className="app-wrapper">
-      <Header />
+      <Header onLogout={handleLogout}/>
       <section className="dashboard-top-panel">
           {/* <h3>Spending Overview</h3> */}
-       
-
+    
         {/* Right or Bottom: Your Navigation Links */}
         <nav className="action-links">
           <div className="overview-allexpense">
@@ -67,25 +66,25 @@ function DashboardLayout({ notification, contextData }) {
       </section>
       <div className="aside-main-wrapper">
             <aside>
-                <NavLink to="/dashboard" className="nav-icon" title="Dashboard" >
-                  <DashboardOutlinedIcon className="icon"/> Dashboard
+                <NavLink to="/dashboard" end className="nav-icon" title="Dashboard" >
+                  <DashboardOutlinedIcon className="icon" /> Dashboard
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-icon" title="Profile">
+                <NavLink to="/dashboard/profile" className="nav-icon" title="Profile">
                   <ManageAccountsOutlinedIcon className="icon"/> Profile
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-icon" title="Budget">
+                <NavLink to="/dashboard/budget" className="nav-icon" title="Budget">
                   <ManageHistoryOutlinedIcon className="icon"/> Budget
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-icon" title="Payment">
+                <NavLink to="/dashboard/payment" className="nav-icon" title="Payment">
                   <AddCardOutlinedIcon className="icon"/> Payment
                 </NavLink>
                 
                 <div className="aside-footer">
                   <hr/>
-                <NavLink to="/dashboard" className="nav-icon" title="Settings">
+                <NavLink to="/dashboard/settings" className="nav-icon" title="Settings">
                   <SettingsOutlinedIcon className="icon"/> Settings
                 </NavLink>
-                <NavLink to="/dashboard" className="nav-icon" title="Help">
+                <NavLink to="/dashboard/help" className="nav-icon" title="Help">
                   <HelpOutlinedIcon className="icon"/> Help
                 </NavLink>
                
