@@ -53,11 +53,17 @@ function DashboardLayout({ notification, contextData }) {
         <nav className="action-links">
           <div className="overview-allexpense">
             <NavLink to="/dashboard" end>
-            Overview
-          </NavLink>
-          <NavLink to="/dashboard/all-expenses">
-            All Expenses
-          </NavLink>
+              Overview
+            </NavLink>
+            <NavLink to="/dashboard/all-expenses">
+              All Expenses
+            </NavLink>
+            |
+            <div className="budget-meter">
+              <span className="budget-text">Remaining Budget: </span>
+              <progress value={65} max={100} className="budget-progress"> 
+              </progress> 65%
+            </div>
           </div>
           <NavLink to="/dashboard/create-expense" onClick={handleNewExpenseClick} className="new-expense-btn">
             <AddOutlinedIcon/> New Expense

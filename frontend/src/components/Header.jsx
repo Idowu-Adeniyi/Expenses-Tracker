@@ -33,8 +33,8 @@ function Header({ onLogout }) {
       </div>
 
       <div className="header-btn">
-        <NotificationsOutlinedIcon />
-        <AssistantOutlinedIcon />
+        <NotificationsOutlinedIcon className="header-icon" />
+        <AssistantOutlinedIcon className="header-icon"/>
         <div className="avatar-container">
           <button type="button" className="avatar-profile" onClick={handleProfileMenu}>
             <img src="/src/assets/my-photo.jpg" alt="Profile" />
