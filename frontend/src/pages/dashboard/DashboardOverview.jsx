@@ -1,8 +1,14 @@
 import React from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import ExpenseTable from "./ExpenseTable";
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import SafetyCheckOutlinedIcon from '@mui/icons-material/SafetyCheckOutlined';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import StarRateOutlinedIcon from '@mui/icons-material/StarRateOutlined';
+
+
 function DashboardOverview() {
-  const { allExpense } = useOutletContext();
+  const { allExpense} = useOutletContext();
 
   const user = localStorage.getItem("currentUser");
   const loggedInUser = JSON.parse(user)
@@ -13,21 +19,25 @@ function DashboardOverview() {
       <h2>Dashboard Overview</h2>
       <p>Welcome back <strong>{loggedInUser.username}</strong>! Select an option above or view your recent activity here.</p>
      <div className="analytic-card-container">
+
          <div className="analytic-card card-1">
-           <p>Total Expenses</p>
-           <p>$50000</p>
+           <p className="analytic-text"><MonetizationOnOutlinedIcon className="analytic-icon"/> Total Expenses</p>
+           <p className="analytic-value">$5000</p>
          </div>
+
          <div className="analytic-card card-2">
-           <p>Remaining Budget</p>
-           <p>$50000</p>
+           <p className="analytic-text"><SafetyCheckOutlinedIcon className="analytic-icon" />Remaining Budget</p>
+           <p className="analytic-value">$50000</p>
          </div>
+
          <div className="analytic-card card-3">
-           <p>Average Daily Spend</p>
-           <p>$50000</p>
+           <p className="analytic-text"><TrendingUpOutlinedIcon className="analytic-icon" />Average Daily Spend</p>
+           <p className="analytic-value">$50000</p>
          </div>
+
          <div className="analytic-card card-4">
-           <p>Top Spending Category</p>
-           <p>$50000</p>
+           <p className="analytic-text"><StarRateOutlinedIcon className="analytic-icon" />Top Spending Category</p>
+           <p className="analytic-value">Groceries</p>
          </div>
      </div>
      <div className="recent-expenses-section list-items">

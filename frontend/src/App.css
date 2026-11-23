@@ -479,7 +479,7 @@ aside a.nav-icon, .logout-btn{
 }
 
 .action-links a:hover{
-  color:#15803D;
+  color:#2ea359;
 }
 
 .logout-btn{
@@ -768,7 +768,7 @@ color:green;
     background: #96c298;
     background: linear-gradient(to right, transparent, #96c298 500%);
     border:none;
-    border-left: solid 3px #96c298 ;
+    border-left: solid 3px #96c298;
 }
 
 .analytic-card-container .card-2{
@@ -819,10 +819,7 @@ span.budget-text{
   background-color: #2e7d47; /* Change this to any color you want */
 }
 
-/* Fill color for Firefox */
-.budget-progress::-moz-progress-bar {
-  background-color: red; /* Must match the color above */
-}
+
 
 
 
@@ -887,5 +884,31 @@ span.budget-text{
 }
 }
 
+p.analytic-text{
+    display:flex;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    font-weight:500;
+    color:#374151;
+    /* color:green; */
+    margin-bottom: 3px;
+    margin-top:10px;
+}
 
+p .analytic-icon{
+    /* color:green; */
+    color:#111827;
+    font-size:1.7rem;
+    padding:2px;
+}
+
+p.analytic-value{
+    color:#111827;
+    /* color:green; */
+    font-weight:bold;
+    font-size:22px;
+    padding:0;
+    margin:0;
+}
 
