@@ -27,6 +27,7 @@ function App() {
   const [inputData, setInputData] = useState({
     description: "",
     amount: "", 
+    category: "",
     date: new Date()
   });
 
@@ -70,17 +71,9 @@ function App() {
     }
   }
   
-  // useEffect(() => {
-  //   const savedToken = localStorage.getItem("authToken");
-  //   const savedUser = localStorage.getItem("currentUser");
-  //   if(savedToken && savedUser){
-  //     const userObject = JSON.parse(savedUser);
-  //     getAllExpenses(userObject.id);
-  //   }
-  // }, []);
 
   function handleAddNewExpense(savedExpense) {
-    setAllExpense((prevExpense) => [...prevExpense, savedExpense]);
+    setAllExpense((prevExpense) => [savedExpense, ...prevExpense]);
   }
 
   function handleUpdateExpenseList(updatedExpense) {

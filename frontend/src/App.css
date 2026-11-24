@@ -92,6 +92,7 @@ input{
     font-size:15px;
 }
 
+/* ::first-letter { text-transform: uppercase; } */
 .row-data, .list-data{
     padding-left:10px;
     display:flex;
@@ -99,12 +100,12 @@ input{
     font-size:14px;
     align-items:center;
     font-weight:600;
-    
+    text-transform: capitalize; 
 }
 
 .list-items ul li{
    display:grid;
-   grid-template-columns: repeat(4, 1fr); 
+   grid-template-columns: repeat(5, 1fr); 
    padding: 14px 0;
    gap:2rem;
    border-bottom: 1.5px solid rgb(239, 234, 234);
@@ -112,13 +113,19 @@ input{
 
 .table-head{
     display:grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     overflow-x: auto;
     color: white;
     background-color:rgb(66, 64, 64);
     border-radius:7px;
     font-weight:700;
     gap:34px;
+}
+
+
+.list-items ul li:not(:has(.btn-action)),
+.table-head:not(:has(p:nth-child(5))) {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .table-head, .total-expense-footer p{
@@ -424,7 +431,10 @@ h3 .error-highlight-text{
 }
 
 .dashboard-top-panel{
-border-radius:0 0 12px 12px ;  
+border-radius:0 0 12px 12px; 
+ position: sticky;
+  top: 76px;  
+  z-index: 10;  
 }
 
 .dashboard-content{

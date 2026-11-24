@@ -1,5 +1,7 @@
 import React from "react";
 import { useOutletContext, Link } from "react-router-dom";
+import {getTotalExpenses} from "/src/utils/calculateStats.js";
+import {formatCurrency} from "/src/utils/formatCurrency.js";
 import ExpenseTable from "./ExpenseTable";
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import SafetyCheckOutlinedIcon from '@mui/icons-material/SafetyCheckOutlined';
@@ -8,7 +10,9 @@ import StarRateOutlinedIcon from '@mui/icons-material/StarRateOutlined';
 
 
 function DashboardOverview() {
-  const { allExpense} = useOutletContext();
+  const { allExpense } = useOutletContext();
+
+  const totalExpenses = getTotalExpenses(allExpense);
 
   const user = localStorage.getItem("currentUser");
   const loggedInUser = JSON.parse(user)
@@ -22,7 +26,7 @@ function DashboardOverview() {
 
          <div className="analytic-card card-1">
            <p className="analytic-text"><MonetizationOnOutlinedIcon className="analytic-icon"/> Total Expenses</p>
-           <p className="analytic-value">$5000</p>
+           <p className="analytic-value">{formatCurrency(totalExpenses)}</p>
          </div>
 
          <div className="analytic-card card-2">

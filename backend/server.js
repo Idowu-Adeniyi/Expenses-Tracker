@@ -121,10 +121,10 @@ app.post("/api/login", async (req, res) =>{
 // CREATE A NEW EXPENSE
 app.post("/api/expenses", async (req, res) => {
   try {
-    const { description, amount, date, user_id } = req.body;
+    const { description, amount, category, date, user_id } = req.body;
 
     // Validate inputs
-    if (!description || !amount || !date || description.trim() === "" || date.trim() === "") {
+    if (!description || !amount || !date ||!category || description.trim() === "" || date.trim() === "" || category.trim() === "") {
       return res.status(400).json({ message: "Fields cannot be empty or contain only spaces." });
     }
 
@@ -137,8 +137,8 @@ app.post("/api/expenses", async (req, res) => {
     }
 
     const newExpense = await pool.query(
-      "INSERT INTO expenses (description, amount, date, user_id) VALUES ($1, $2, $3, $4) RETURNING *", 
-      [description, amount, date, user_id]
+      "INSERT INTO expenses (description, amount, date, category, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *", 
+      [description, amount, date, category, user_id]
     );
     res.status(201).json(newExpense.rows[0]);
 
@@ -153,7 +153,7 @@ app.get("/api/expenses/user/:userId", async (req, res) => {
   try {
     const {userId} = req.params;
 
-    const allExpenses = await pool.query("SELECT * FROM expenses WHERE user_id = $1 ORDER BY id ASC", [userId]);
+    const allExpenses = await pool.query("SELECT * FROM expenses WHERE user_id = $1 ORDER BY date DESC, id DESC", [userId]);
     res.status(200).json(allExpenses.rows);
 
   } catch(error) {
@@ -193,21 +193,21 @@ app.get("/api/expenses/:id", async (req, res) => {
 app.put("/api/expenses/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { description, amount, date } = req.body;
+    const { description, amount, category, date} = req.body;
     
     // Validate id
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid ID format, must be a number" });
     }
 
-    if (!description || !amount || !date || description.trim() === "" || date.trim() === "") {
+    if (!description || !amount || !category || !date || description.trim() === "" || category.trim() === "" || date.trim() === "") {
       return res.status(400).json({ message: "Invalid input fields. All fields are required." });
     }
     
     // Query database
     const updateExpense = await pool.query(
-      "UPDATE expenses SET description = $1, amount = $2, date = $3 WHERE id = $4 RETURNING *", 
-      [description, amount, date, id]
+      "UPDATE expenses SET description = $1, amount = $2, category = $3, date = $4 WHERE id = $5 RETURNING *", 
+      [description, amount, category, date, id]
     );
 
     // Validate if it exists

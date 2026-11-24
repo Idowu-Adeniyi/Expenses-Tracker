@@ -1,6 +1,7 @@
 import React from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
+import {formatCurrency} from "/src/utils/formatCurrency.js";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
@@ -12,7 +13,11 @@ function ExpenseTable({ expenses = [], title = "All Expenses", showActions = tru
     try {
       const response = await axios.get(`http://localhost:3000/api/expenses/${id}`);
       const fetchedExpense = response.data;
-      fetchedExpense.date = fetchedExpense.date ? new Date(fetchedExpense.date) : new Date();
+      const cleanDate = fetchedExpense.date ? fetchedExpense.date.split("T")[0] : null;
+      fetchedExpense.date = cleanDate ? new Date(`${cleanDate}T00:00:00`) : new Date();
+
+      // const fetchedExpense = response.data;
+      // fetchedExpense.date = fetchedExpense.date ? new Date(fetchedExpense.date) : new Date();
 
       setInputData(fetchedExpense);
       navigate("/dashboard/create-expense");
@@ -29,6 +34,7 @@ function ExpenseTable({ expenses = [], title = "All Expenses", showActions = tru
         <p>Date</p>
         <p>Description</p>
         <p>Amount</p>
+        <p>Category</p>
         {showActions && <p>Actions</p>}
       </div>
       <ul>
@@ -38,7 +44,8 @@ function ExpenseTable({ expenses = [], title = "All Expenses", showActions = tru
               {item.date ? item.date.split("T")[0] : ""}
             </span>
             <span className="row-data">{item.description}</span>
-            <span className="row-data">${item.amount} CAD</span>
+            <span className="row-data">{formatCurrency(item.amount)}</span>
+            <span className="row-data">{item.category}</span>
             
             {showActions && (
               <div className="btn-action">

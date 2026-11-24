@@ -31,6 +31,7 @@ function DashboardLayout({ notification, contextData }) {
     contextData.setInputData({
       description: "",
       amount: "",
+      category: "",
       date: new Date()
     });
   }

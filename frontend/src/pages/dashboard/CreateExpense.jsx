@@ -23,16 +23,17 @@ function CreateExpense() {
 
     const description = inputData.description;
     const amount = inputData.amount;
+    const category = inputData.category;
     const rawDate = inputData.date;
 
-    if (!description || !amount || !rawDate || description.trim() === "") {
+    if (!description || !amount || !category || !rawDate || description.trim() === "") {
       showToast("Please fill out all fields!");
       return;
     }
     
     // Safety verification check if it's a raw date object
     const parsedDate = rawDate instanceof Date ? rawDate : new Date(rawDate);
-    const formattedDate = parsedDate.toISOString().split("T")[0];
+    const formattedDate = parsedDate.toLocaleDateString("en-CA");
 
     const savedUser = localStorage.getItem("currentUser");
     let activeUserId = null;
@@ -47,6 +48,7 @@ function CreateExpense() {
         const response = await axios.put(`http://localhost:3000/api/expenses/${inputData.id}`, {
           description: description, 
           amount: Number(amount), 
+          category: category,
           date: formattedDate
         });
         
@@ -56,6 +58,7 @@ function CreateExpense() {
         const response = await axios.post("http://localhost:3000/api/expenses", {
           description: description, 
           amount: Number(amount), 
+          category: category,
           date: formattedDate,
           user_id: activeUserId 
         });
@@ -67,6 +70,7 @@ function CreateExpense() {
       setInputData({
         description: "",
         amount: "",
+        category: "",
         date: new Date()
       });
       
@@ -83,6 +87,25 @@ function CreateExpense() {
       <div className="form-container">
         <h2>{inputData.id ? "Edit Expense" : "New Expense"}</h2>
         <p>{inputData.description}</p>
+         <div>
+          <label htmlFor="category">Select Category:</label>
+          <select
+            id="category"
+            name="category"
+            value={inputData.category || ""}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Housing">Housing</option>
+            <option value="Transport">Transport</option>
+            <option value="Bills">Bills</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
         <div>
           <label htmlFor="title">Title:</label>
           <input 
