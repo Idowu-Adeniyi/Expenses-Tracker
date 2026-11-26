@@ -1,6 +1,6 @@
 import React from "react";
 import { useOutletContext, Link } from "react-router-dom";
-import {getTotalExpenses, getTopSpendingCategory} from "/src/utils/calculateStats.js";
+import {getTotalExpenses, getTopSpendingCategory, getSpendingSummary} from "/src/utils/calculateStats.js";
 import {formatCurrency} from "/src/utils/formatCurrency.js";
 import ExpenseTable from "./ExpenseTable";
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
@@ -14,7 +14,7 @@ function DashboardOverview() {
   const totalExpenses = getTotalExpenses(allExpense);
   
   const topSpending = getTopSpendingCategory(allExpense);
-  console.log(topSpending);
+  const summary = getSpendingSummary(allExpense);
 
   const user = localStorage.getItem("currentUser");
   const loggedInUser = JSON.parse(user)
@@ -35,15 +35,17 @@ function DashboardOverview() {
            <p className="analytic-text"><SafetyCheckOutlinedIcon className="analytic-icon" />Remaining Budget</p>
            <p className="analytic-value">$50000</p>
          </div>
-
-         <div className="analytic-card card-3">
-           <p className="analytic-text"><TrendingUpOutlinedIcon className="analytic-icon" />Average Daily Spend</p>
-           <p className="analytic-value">$50000</p>
-         </div>
-         <div className="analytic-card card-4">
+         
+          <div className="analytic-card card-4">
            <p className="analytic-text"><StarRateOutlinedIcon className="analytic-icon" />Top Spending Category</p>
            <p className="analytic-value">{topSpending.topCategory}</p>
            <p className="top-cat-spend-text">{topSpending.topCategory}: <span className="top-cat-spend">{formatCurrency(topSpending.highestAmount)}</span></p>
+         </div>
+         <div className="analytic-card card-3">
+           <p className="analytic-text"><TrendingUpOutlinedIcon className="analytic-icon" />Spending Summary</p>
+           <p className="top-cat-spend-text">Today: <span className="top-cat-spend">{formatCurrency(summary.todayTotal)}</span></p>
+           <p className="top-cat-spend-text">This Week: <span className="top-cat-spend">{formatCurrency(summary.weekTotal)}</span></p>
+           <p className="top-cat-spend-text">This Month: <span className="top-cat-spend">{formatCurrency(summary.monthTotal)}</span></p>
          </div>
      </div>
      <div className="recent-expenses-section list-items">
