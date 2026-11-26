@@ -1,4 +1,5 @@
 import React from "react";
+import {useState} from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {formatCurrency} from "/src/utils/formatCurrency.js";
@@ -37,6 +38,9 @@ function ExpenseTable({ expenses = [], title = "All Expenses", showActions = tru
         <p>Category</p>
         {showActions && <p>Actions</p>}
       </div>
+       {expenses.length === 0 && <p className="no-expense">
+        No Recent Expenses Recorded Yet!
+        </p> }
       <ul>
         {expenses.map((item) => (
           <li key={item.id} className="list-data">

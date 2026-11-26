@@ -1,6 +1,6 @@
 import React from "react";
 import { useOutletContext, Link } from "react-router-dom";
-import {getTotalExpenses} from "/src/utils/calculateStats.js";
+import {getTotalExpenses, getTopSpendingCategory} from "/src/utils/calculateStats.js";
 import {formatCurrency} from "/src/utils/formatCurrency.js";
 import ExpenseTable from "./ExpenseTable";
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
@@ -11,8 +11,10 @@ import StarRateOutlinedIcon from '@mui/icons-material/StarRateOutlined';
 
 function DashboardOverview() {
   const { allExpense } = useOutletContext();
-
   const totalExpenses = getTotalExpenses(allExpense);
+  
+  const topSpending = getTopSpendingCategory(allExpense);
+  console.log(topSpending);
 
   const user = localStorage.getItem("currentUser");
   const loggedInUser = JSON.parse(user)
@@ -38,10 +40,10 @@ function DashboardOverview() {
            <p className="analytic-text"><TrendingUpOutlinedIcon className="analytic-icon" />Average Daily Spend</p>
            <p className="analytic-value">$50000</p>
          </div>
-
          <div className="analytic-card card-4">
            <p className="analytic-text"><StarRateOutlinedIcon className="analytic-icon" />Top Spending Category</p>
-           <p className="analytic-value">Groceries</p>
+           <p className="analytic-value">{topSpending.topCategory}</p>
+           <p className="top-cat-spend-text">{topSpending.topCategory}: <span className="top-cat-spend">{formatCurrency(topSpending.highestAmount)}</span></p>
          </div>
      </div>
      <div className="recent-expenses-section list-items">

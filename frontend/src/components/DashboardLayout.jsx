@@ -76,11 +76,11 @@ function DashboardLayout({ notification, contextData }) {
                 <NavLink to="/dashboard" end className="nav-icon" title="Dashboard" >
                   <DashboardOutlinedIcon className="icon" /> Dashboard
                 </NavLink>
-                <NavLink to="/dashboard/profile" className="nav-icon" title="Profile">
-                  <ManageAccountsOutlinedIcon className="icon"/> Profile
-                </NavLink>
                 <NavLink to="/dashboard/budget" className="nav-icon" title="Budget">
                   <ManageHistoryOutlinedIcon className="icon"/> Budget
+                </NavLink>
+                <NavLink to="/dashboard/profile"               className="nav-icon" title="Profile">
+                  <ManageAccountsOutlinedIcon className="icon"/> Profile
                 </NavLink>
                 <NavLink to="/dashboard/payment" className="nav-icon" title="Payment">
                   <AddCardOutlinedIcon className="icon"/> Payment

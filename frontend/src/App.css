@@ -287,8 +287,8 @@ ul{
 
 .right-content{
     background-color:rgb(66, 134, 66);
-    margin-right:110px;
-    margin-left:110px;
+    margin-right:126px;
+    margin-left:126px;
     margin-top:60px;
     color:white;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -304,7 +304,7 @@ ul{
 
 .right-content input{
     width:100%;
-    height: 55px;
+    height: 56px;
     border-radius: 10px;
     margin-bottom: 15px;
     background-color:rgb(136, 200, 136);
@@ -321,8 +321,8 @@ ul{
 
 .input-icon{
     position:absolute;
-    margin-left: -38rem;
-    margin-top: 23px;
+    margin-left: -36rem;
+    margin-top: 26px;
     pointer-events: none;  
 }
 
@@ -513,9 +513,11 @@ aside a.nav-icon:hover{
 aside a.nav-icon.active{
   background-color:#F0FDF4;
   color:#15803D;
+  font-weight:bold;
   border-radius:5px;
-  border-bottom: solid 1px green;
-  border-left: solid 1px green;
+  border-bottom: solid 2px green;
+  border-left: solid 2px green;
+  padding:3px 3px 3px 0px;
 }
 
 
@@ -570,6 +572,7 @@ nav.action-links .new-expense-btn{
     align-items:center;
     justify-content:center;
     gap:1px;
+    font-size:16px;
 }
 
 nav.action-links .new-expense-btn:link{
@@ -755,7 +758,7 @@ color:green;
 
 .analytic-card-container .analytic-card{
    border: solid 1px green;
-   height: 92px;
+   height: 102px;
    width:100%;
    border-radius: 8px;
    display:block;
@@ -805,8 +808,23 @@ color:green;
 
 span.budget-text{
     color:grey;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.top-cat-spend{
+    font-weight:bold;
+    font-size:14px;
+    color:black;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.top-cat-spend-text{
+    padding-top:6px;
+    margin:0px;
+    color:rgb(113, 111, 111);
+}
 
 .budget-progress {
   appearance: none;
@@ -900,6 +918,7 @@ p.analytic-text{
     align-items:center;
     justify-content:center;
     font-weight:500;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color:#374151;
     /* color:green; */
     margin-bottom: 3px;
@@ -918,7 +937,14 @@ p.analytic-value{
     /* color:green; */
     font-weight:bold;
     font-size:22px;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
 }
 
+.no-expense{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-align:center;
+    padding:24px;
+    color: #6b7280;
+    font-size: 0.95rem;
+}
