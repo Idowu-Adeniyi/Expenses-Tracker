@@ -54,7 +54,7 @@ function Header({ onLogout }) {
               </NavLink>
               <button
                 type="button"
-                className="nav-icon logout-btn"
+                className="nav-icon logout-btn-showMenu"
                 onClick={onLogout}
                 title="Logout"
               >
